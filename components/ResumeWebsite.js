@@ -195,7 +195,7 @@ const ResumeWebsite = () => {
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">Exploratory Projects</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Side projects where I explore new technologies, experiment with ideas, learn, and build practical solutions to real problems.
+              Side projects where I explore new technologies, experiment with ideas, learn, and build practical (or fun) solutions to real problems.
             </p>
           </div>
           
