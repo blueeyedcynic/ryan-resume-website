@@ -25,7 +25,7 @@ const ResumeWebsite = () => {
         {
       id: 3,
       title: "Woodland Park Tiki Route",
-      description: "Growing up in Miami, snow was not a thing. So when we decided to spend more time in Colorado, there was some nervousness about road conditions and going to and from the mountains. The Woodland Park Tiki Route provides and <i>incredibly modern, sleek design</i> for easily seeing the road conditions on the driving route, pulling live data from a publicly available <strong>road conditions API.</strong>",
+      description: "Growing up in Miami, snow was not a thing. So when we decided to spend more time in Colorado, there was some nervousness about road conditions and going to and from the mountains. The Woodland Park Tiki Route provides an <i>incredibly modern, sleek design</i> for easily seeing the road conditions on the driving route, pulling live data from a publicly available <strong>road conditions API.</strong>",
       link: "https://woodland-park-tiki-route.vercel.app/",
       tech: ["Road Conditions API", "Tiki Vibes"]
     }
