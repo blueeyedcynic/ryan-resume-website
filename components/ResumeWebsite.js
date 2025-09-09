@@ -17,13 +17,20 @@ const ResumeWebsite = () => {
     },
     {
       id: 2,
+      title: "Virtual Cocktail Crafter",
+      description: "I'm a home cocktail maker. A lot of times I like to find recipes based on what I have on hand, starting with the ingredeints available and getting creative. The Virtual Cocktail Crafter accepts user inputs on available ingredients then <strong>dynamically generates a prompt for the LLM</strong> to either provide recipes or a curated cocktail menu. Recipes can be shared via SMS on mobile.",
+      link: "https://create-cocktail-app.vercel.app/",
+      tech: ["Anthropic API", "LLM Integration with Dynamic Prompting"]
+    },
+    {
+      id: 3,
       title: "Austin Concerts Dashboard",
       description: "I love going to concerts. In this project I use a web scraper to crawl websites and gather concert information. The concerts are then categorized by venue and my favorite venues are the highlight. This was a straight vibe coding exercise and required a lot of testing and debugging to get things in place, including a complete <strong>debugging tool / UI for testing different sources</strong> for the data.",
       link: "https://austin-concert-dash.vercel.app/",
       tech: ["Web Scraping", "Debugging Tools"]
     },
         {
-      id: 3,
+      id: 4,
       title: "Woodland Park Tiki Route",
       description: "Growing up in Miami, snow was not a thing. So when we decided to spend more time in Colorado, there was some nervousness about road conditions and going to and from the mountains. The Woodland Park Tiki Route provides an <i>incredibly modern, sleek design</i> for easily seeing the road conditions on the driving route, pulling live data from a publicly available <strong>road conditions API.</strong>",
       link: "https://woodland-park-tiki-route.vercel.app/",
@@ -217,7 +224,17 @@ const ResumeWebsite = () => {
                       <ExternalLink className="w-5 h-5" />
                     </a>
                   </div>
-                  
+
+                    <a
+                        href={project.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex linklink items-center text-green-600 hover:text-green-700 font-medium group"
+                      >
+                        <strong>View Project</strong>
+                        <ExternalLink className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-200" />
+                      </a>
+
                   <p className="text-gray-700 leading-relaxed mb-6" dangerouslySetInnerHTML={{ __html: project.description }} />
                   
                   <div className="space-y-4">
@@ -225,22 +242,13 @@ const ResumeWebsite = () => {
                       {project.tech.map((tech, techIndex) => (
                         <span 
                           key={techIndex}
-                          className="px-3 py-1 bg-green-100 text-green-700 text-sm font-medium rounded-full"
+                          className="px-3 py-1 bg-gray-100 text-gray-700 text-sm font-medium rounded-full"
                         >
                           {tech}
                         </span>
                       ))}
                     </div>
                     
-                    <a
-                      href={project.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center text-green-600 hover:text-green-700 font-medium group"
-                    >
-                      View Project
-                      <ExternalLink className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-200" />
-                    </a>
                   </div>
                 </div>
               </div>
