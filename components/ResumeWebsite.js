@@ -11,14 +11,14 @@ const ResumeWebsite = () => {
     {
       id: 1,
       title: "Dynamic Feature Request Form",
-      description: "Feature request forms can be static and boring. I wanted to jazz it up by leveraging an LLM for dynamic questions. In this project, I have a simple feature request wizard that walks a user through submission. There initial responses along with their provided information is sent to an LLM for generating additional, dynamic questions. All responses are published to a centralized Google Sheet.",
+      description: "Feature request forms can be static and boring. I wanted to jazz it up by leveraging an LLM for dynamic questions. In this project, I have a simple feature request wizard that walks a user through submission. Their initial responses along with their provided information is sent to an LLM for generating additional, dynamic questions. All responses are published to a centralized Google Sheet.",
       link: "https://feature-request-wizard.vercel.app/",
       tech: ["LLM Integration", "Google Sheets API", "React"]
     },
     {
       id: 2,
       title: "Austin Concerts Dashboard",
-      description: "I love going to concerts. In the project I use a web scraper to crawl websites and gather concert information. The concerts are then categorized by venue and my favorite venues are the highlight. This was a straight vibe coding exercise and required a lot of testing and debugging to get things in place, including a complete debugging tool / UI for testing different sources for the data.",
+      description: "I love going to concerts. In this project I use a web scraper to crawl websites and gather concert information. The concerts are then categorized by venue and my favorite venues are the highlight. This was a straight vibe coding exercise and required a lot of testing and debugging to get things in place, including a complete debugging tool / UI for testing different sources for the data.",
       link: "https://austin-concert-dash.vercel.app/",
       tech: ["Web Scraping", "Data Visualization", "Debugging Tools"]
     }
@@ -188,7 +188,7 @@ const ResumeWebsite = () => {
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">Exploratory Projects</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Side projects where I explore new technologies, experiment with ideas, and build practical solutions to real problems.
+              Side projects where I explore new technologies, experiment with ideas, learn, and build practical solutions to real problems.
             </p>
           </div>
           
