@@ -11,16 +11,23 @@ const ResumeWebsite = () => {
     {
       id: 1,
       title: "Dynamic Feature Request Form",
-      description: "Feature request forms can be static and boring. I wanted to jazz it up by leveraging an LLM for dynamic questions. In this project, I have a simple feature request wizard that walks a user through submission. Their initial responses along with their provided information is sent to an LLM for generating additional, dynamic questions. All responses are published to a centralized Google Sheet.",
+      description: "Feature request forms can be static and boring. I wanted to jazz it up by leveraging an LLM for dynamic questions. In this project, I have a simple feature request wizard that walks a user through submission. Their initial responses along with their provided information is sent to an <strong>LLM for generating additional, dynamic questions</strong>. All responses are published to a centralized Google Sheet.",
       link: "https://feature-request-wizard.vercel.app/",
-      tech: ["LLM Integration", "Google Sheets API", "React"]
+      tech: ["Anthropic API / LLM Integration", "Google Sheets API"]
     },
     {
       id: 2,
       title: "Austin Concerts Dashboard",
-      description: "I love going to concerts. In this project I use a web scraper to crawl websites and gather concert information. The concerts are then categorized by venue and my favorite venues are the highlight. This was a straight vibe coding exercise and required a lot of testing and debugging to get things in place, including a complete debugging tool / UI for testing different sources for the data.",
+      description: "I love going to concerts. In this project I use a web scraper to crawl websites and gather concert information. The concerts are then categorized by venue and my favorite venues are the highlight. This was a straight vibe coding exercise and required a lot of testing and debugging to get things in place, including a complete <strong>debugging tool / UI for testing different sources</strong> for the data.",
       link: "https://austin-concert-dash.vercel.app/",
-      tech: ["Web Scraping", "Data Visualization", "Debugging Tools"]
+      tech: ["Web Scraping", "Debugging Tools"]
+    },
+        {
+      id: 3,
+      title: "Woodland Park Tiki Route",
+      description: "Growing up in Miami, snow was not a thing. So when we decided to spend more time in Colorado, there was some nervousness about road conditions and going to and from the mountains. The Woodland Park Tiki Route provides and <i>incredibly modern, sleek design</i> for easily seeing the road conditions on the driving route, pulling live data from a publicly available <strong>road conditions API.</strong>",
+      link: "https://woodland-park-tiki-route.vercel.app/",
+      tech: ["Road Conditions API", "Tiki Vibes"]
     }
   ];
 
@@ -211,9 +218,7 @@ const ResumeWebsite = () => {
                     </a>
                   </div>
                   
-                  <p className="text-gray-700 leading-relaxed mb-6">
-                    {project.description}
-                  </p>
+                  <p className="text-gray-700 leading-relaxed mb-6" dangerouslySetInnerHTML={{ __html: project.description }} />
                   
                   <div className="space-y-4">
                     <div className="flex flex-wrap gap-2">
