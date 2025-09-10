@@ -17,7 +17,7 @@ export default function RootLayout({ children }) {
       <head>
         <title>Ryan Andrews - Product Management</title>
       </head>
-      <body className={inter.className}>{children}
+      <body className={inter.className}>
         {children}
         <SpeedInsights />
         <Analytics />
