@@ -10,14 +10,14 @@ const ResumeWebsite = () => {
   const projects = [
     {
       id: 1,
-      title: "Dynamic Feature Request Form",
+      title: "AI Powered Dynamic Feature Request Form",
       description: "Feature request forms can be static and boring. I wanted to jazz it up by leveraging an LLM for dynamic questions. In this project, I have a simple feature request wizard that walks a user through submission. Their initial responses along with their provided information is sent to an <strong>LLM for generating additional, dynamic questions</strong>. All responses are published to a centralized Google Sheet.",
       link: "https://feature-request-wizard.vercel.app/",
       tech: ["Anthropic API / LLM Integration", "Google Sheets API"]
     },
     {
       id: 2,
-      title: "Virtual Cocktail Crafter",
+      title: "AI Powered Virtual Cocktail Crafter",
       description: "I'm a home cocktail maker. A lot of times I like to find recipes based on what I have on hand, starting with the ingredeints available and getting creative. The Virtual Cocktail Crafter accepts user inputs on available ingredients then <strong>dynamically generates a prompt for the LLM</strong> to either provide recipes or a curated cocktail menu. Recipes can be shared via SMS on mobile.",
       link: "https://create-cocktail-app.vercel.app/",
       tech: ["Anthropic API", "LLM Integration with Dynamic Prompting"]
