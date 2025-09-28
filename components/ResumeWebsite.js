@@ -154,13 +154,15 @@ const ResumeWebsite = () => {
               <div>
                 <h2 className="text-4xl font-bold text-gray-900 mb-4">About Me</h2>
                 <p className="text-lg text-gray-700 leading-relaxed">
-                  Product leader with 15 years of experience building B2B enterprise software and leading cross-functional teams in fast-paced, high-growth environments. Skilled in managing highly technical products and platform capabilities. Experience taking products from 0 to 1.
+                  Hey, I'm Ryan. I am a product Management leader with 15 years of experience in B2B SaaS and leading cross-functional teams in fast-paced, high-growth environments. I'm skilled in managing highly technical products and platform capabilities and experienced in taking products from 0 to 1.
                 </p>
                 <p className="text-lg text-gray-700 leading-relaxed mt-4">
-                  Strong track record of simplifying complex workflows, leading cross-functional teams, and aligning infrastructure initiatives with product strategy. Thrive in environments that demand clarity, autonomy, and customer focus.
+                  I have a strong track record of simplifying complex workflows, mentoring product manegers and designers, and aligning technical initiatives with product strategy and company goals. I thrive in environments that demand <strong>clarity, autonomy, and customer focus.</strong>
+                </p>
+                <p className="text-lg text-gray-700 leading-relaxed mt-4">
+                  I live in Austin, Texas with my wife Katie. If  But you may find us roaming around the mountains in Colorado or visiting family back in Miami.
                 </p>
               </div>
-              
               <div className="space-y-4">
                 <h3 className="text-2xl font-semibold text-gray-900">Core Strengths</h3>
                 <div className="grid md:grid-cols-2 gap-4">
@@ -202,7 +204,7 @@ const ResumeWebsite = () => {
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">Exploratory Projects</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Side projects where I explore new technologies, experiment with ideas, learn, and build practical (or fun) solutions to real problems.
+              Side projects where I explore new technologies, experiment with ideas, learn, and build practical (or just fun) solutions to real problems.
             </p>
           </div>
           
