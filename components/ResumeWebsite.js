@@ -20,17 +20,24 @@ const ResumeWebsite = () => {
       title: "AI Powered Virtual Cocktail Crafter",
       description: "I'm a home cocktail maker. A lot of times I like to find recipes based on what I have on hand, starting with the ingredeints available and getting creative. The Virtual Cocktail Crafter accepts user inputs on available ingredients then <strong>dynamically generates a prompt for the LLM</strong> to either provide recipes or a curated cocktail menu. Recipes can be shared via SMS on mobile.",
       link: "https://create-cocktail-app.vercel.app/",
-      tech: ["Anthropic API", "LLM Integration with Dynamic Prompting"]
+      tech: ["Anthropic API / LLM Integration", "Dynamic Prompt Creation"]
     },
     {
       id: 3,
+      title: "AI Powered Weekday Hapy Hour Tracker - Vibes Over Everything",
+      description: "This web app gives users easy ways to find food and drink specials in Austin by vibe and area. Users can do traditional search or 'describe their vibe' for <strong>dynamic suggestions powered by Claude via the Anthropic API.</strong>",
+      link: "https://austin-weekday-happy-hours.vercel.app/",
+      tech: ["Anthropic API / LLM Integration", "PostgreSQL", "Dynamic Prompting and Curated Responses"]
+    },
+    {
+      id: 4,
       title: "Austin Concerts Dashboard",
       description: "I love going to concerts. In this project I use a web scraper to crawl websites and gather concert information. The concerts are then categorized by venue and my favorite venues are the highlight. This was a straight vibe coding exercise and required a lot of testing and debugging to get things in place, including a complete <strong>debugging tool / UI for testing different sources</strong> for the data.",
       link: "https://austin-concert-dash.vercel.app/",
       tech: ["Web Scraping", "Debugging Tools"]
     },
         {
-      id: 4,
+      id: 5,
       title: "Woodland Park Tiki Route",
       description: "Growing up in Miami, snow was not a thing. So when we decided to spend more time in Colorado, there was some nervousness about road conditions and going to and from the mountains. The Woodland Park Tiki Route provides an <i>incredibly modern, sleek design</i> for easily seeing the road conditions on the driving route, pulling live data from a publicly available <strong>road conditions API.</strong>",
       link: "https://woodland-park-tiki-route.vercel.app/",
