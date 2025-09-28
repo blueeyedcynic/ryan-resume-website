@@ -167,7 +167,7 @@ const ResumeWebsite = () => {
                 <h3 className="text-2xl font-semibold text-gray-900">Core Strengths</h3>
                 <div className="grid md:grid-cols-2 gap-4">
                   {[
-                    "B2B Enterprise Software",
+                    "B2B / Enterprise Software",
                     "Cross-functional Leadership", 
                     "0-to-1 Product Development",
                     "APIs, Platforms, and Integrations",
