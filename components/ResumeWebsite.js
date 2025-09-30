@@ -167,7 +167,7 @@ const ResumeWebsite = () => {
                   I have a strong track record of simplifying complex workflows, mentoring product manegers and designers, and aligning technical initiatives with product strategy and company goals. I thrive in environments that demand <strong>clarity, autonomy, and customer focus.</strong>
                 </p>
                 <p className="text-lg text-gray-700 leading-relaxed mt-4">
-                  I live in Austin, Texas with my wife Katie. If  But you may find us roaming around the mountains in Colorado or visiting family back in Miami.
+                  I live in Austin, Texas with my wife Katie. But you may find us roaming around the mountains in Colorado or visiting family back in Miami.
                 </p>
               </div>
               <div className="space-y-4">
