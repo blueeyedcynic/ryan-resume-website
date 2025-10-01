@@ -10,38 +10,48 @@ const ResumeWebsite = () => {
   const projects = [
     {
       id: 1,
-      title: "AI Powered Dynamic Feature Request Form",
-      description: "Feature request forms can be static and boring. I wanted to jazz it up by leveraging an LLM for dynamic questions. In this project, I have a simple feature request wizard that walks a user through submission. Their initial responses along with their provided information is sent to an <strong>LLM for generating additional, dynamic questions</strong>. All responses are published to a centralized Google Sheet.",
-      link: "https://feature-request-wizard.vercel.app/",
-      tech: ["Anthropic API / LLM Integration", "Google Sheets API"]
+      title: "AI Powered Weekday Hapy Hour Tracker - Vibes Over Everything",
+      description: "This web app gives users easy ways to find weekday food and drink specials in Austin by vibe, area, and more.",
+      details: "Users can do traditional search or 'describe their vibe' for dynamic suggestions powered by Claude via the Anthropic API. The app's admin module also has analytical agent workflows to automatically analyze user input and suggest new features or content additions.",
+      link: "https://austin-weekday-happy-hours.vercel.app/",
+      tech: ["Anthropic API / LLM Integration", "PostgreSQL", "Dynamic Prompting and Curated Responses", "Analytical Agent Workflow"],
+      screenshot: "/images/hh-app.jpg"
     },
     {
       id: 2,
-      title: "AI Powered Virtual Cocktail Crafter",
-      description: "I'm a home cocktail maker. A lot of times I like to find recipes based on what I have on hand, starting with the ingredeints available and getting creative. The Virtual Cocktail Crafter accepts user inputs on available ingredients then <strong>dynamically generates a prompt for the LLM</strong> to either provide recipes or a curated cocktail menu. Recipes can be shared via SMS on mobile.",
-      link: "https://create-cocktail-app.vercel.app/",
-      tech: ["Anthropic API / LLM Integration", "Dynamic Prompt Creation"]
+      title: "AI Powered Dynamic Feature Request Form",
+      description: "Feature request forms can be static and boring. I wanted to jazz it up by leveraging an LLM for dynamic questions. In this project, I have a simple feature request wizard that walks a user through submission. But there's a twist...",
+      details: "Initial responses along with user provided information are sent to an LLM for generating additional, targeted questions based on the data to that point. All final responses are published to a centralized Google Sheet.",
+      link: "https://feature-request-wizard.vercel.app/",
+      tech: ["Anthropic API / LLM Integration", "Google Sheets API"],
+      screenshot: "/images/wizard-app.jpg"
     },
-    {
+      {
       id: 3,
-      title: "AI Powered Weekday Hapy Hour Tracker - Vibes Over Everything",
-      description: "This web app gives users easy ways to find food and drink specials in Austin by vibe and area. Users can do traditional search or 'describe their vibe' for <strong>dynamic suggestions powered by Claude via the Anthropic API.</strong>",
-      link: "https://austin-weekday-happy-hours.vercel.app/",
-      tech: ["Anthropic API / LLM Integration", "PostgreSQL", "Dynamic Prompting and Curated Responses"]
+      title: "AI Powered Virtual Cocktail Crafter",
+      description: "I'm a home cocktail maker. A lot of times I like to find recipes based on what I have on hand, starting with the ingredeints available and getting creative.",
+      details: "The Virtual Cocktail Crafter accepts user inputs on available ingredients then dynamically generates a prompt for the LLM to either provide recipes or a curated cocktail menu. Recipes can be shared via SMS on mobile.",
+      link: "https://create-cocktail-app.vercel.app/",
+      tech: ["Anthropic API / LLM Integration", "Dynamic Prompt Creation"],
+      screenshot: "/images/cocktail-app.jpg"
     },
     {
       id: 4,
       title: "Austin Concerts Dashboard",
-      description: "I love going to concerts. In this project I use a web scraper to crawl websites and gather concert information. The concerts are then categorized by venue and my favorite venues are the highlight. This was a straight vibe coding exercise and required a lot of testing and debugging to get things in place, including a complete <strong>debugging tool / UI for testing different sources</strong> for the data.",
+      description: "I love going to concerts. In this project I use a web scraper to crawl websites and gather concert information. The concerts are then categorized by venue and my favorite venues are the highlight.",
+      details: " This was a straight vibe coding exercise and required a lot of testing and debugging to get things in place, including a complete debugging tool / UI for testing different sources for the data.",
       link: "https://austin-concert-dash.vercel.app/",
-      tech: ["Web Scraping", "Debugging Tools"]
+      tech: ["Web Scraping", "Debugging Tools"],
+      screenshot: "/images/concerts-app.jpg"
     },
         {
       id: 5,
       title: "Woodland Park Tiki Route",
-      description: "Growing up in Miami, snow was not a thing. So when we decided to spend more time in Colorado, there was some nervousness about road conditions and going to and from the mountains. The Woodland Park Tiki Route provides an <i>incredibly modern, sleek design</i> for easily seeing the road conditions on the driving route, pulling live data from a publicly available <strong>road conditions API.</strong>",
+      description: "Growing up in Miami, snow was not a thing. So when we decided to spend more time in Colorado, there was some nervousness about road conditions and going to and from the mountains. The Woodland Park Tiki Route provides a quick view of road conditions on the driving route, pulling live data from a publicly available road conditions API.",
+      details: "Check out the VERY sleek and modern UI here. Great stuff.",
       link: "https://woodland-park-tiki-route.vercel.app/",
-      tech: ["Road Conditions API", "Tiki Vibes"]
+      tech: ["Road Conditions API", "Tiki Vibes"],
+      screenshot: "/images/tiki-app.jpg"
     }
   ];
 
@@ -215,49 +225,67 @@ const ResumeWebsite = () => {
             </p>
           </div>
           
-          <div className="grid lg:grid-cols-2 gap-8">
+          <div className="space-y-8">
             {projects.map((project, index) => (
               <div 
                 key={project.id}
-                className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden"
+                className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"
               >
-                <div className="p-8">
-                  <div className="flex items-start justify-between mb-6">
-                    <h3 className="text-2xl font-bold text-gray-900">{project.title}</h3>
-                    <a
-                      href={project.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex-shrink-0 p-2 text-green-600 hover:text-green-700 hover:bg-green-50 rounded-lg transition-colors duration-200"
-                    >
-                      <ExternalLink className="w-5 h-5" />
-                    </a>
+                <div className="grid md:grid-cols-5 gap-6">
+                  {/* Screenshot Section */}
+                  <div className="md:col-span-3 bg-gray-100 flex items-center justify-center min-h-[280px]">
+                    <div className="w-full h-full flex items-center justify-center p-6">
+                      <img 
+                            src={project.screenshot} 
+                            alt={`${project.title} screenshot`}
+                            className="w-full h-full object-cover rounded-lg"
+                          />
+                    </div>
                   </div>
-
-                    <a
+                  
+                  {/* Content Section */}
+                  <div className="md:col-span-2 p-8">
+                    <div className="flex items-start justify-between mb-4">
+                      <h3 className="text-2xl font-bold text-gray-900">{project.title}</h3>
+                      <a 
                         href={project.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex linklink items-center text-green-600 hover:text-green-700 font-medium group"
+                        className="flex-shrink-0 p-2 text-green-600 hover:text-green-700 hover:bg-green-50 rounded-lg transition-colors duration-200"
                       >
-                        <strong>View Project</strong>
-                        <ExternalLink className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-200" />
+                        <ExternalLink className="w-5 h-5" />
                       </a>
-
-                  <p className="text-gray-700 leading-relaxed mb-6" dangerouslySetInnerHTML={{ __html: project.description }} />
-                  
-                  <div className="space-y-4">
-                    <div className="flex flex-wrap gap-2">
-                      {project.tech.map((tech, techIndex) => (
-                        <span 
-                          key={techIndex}
-                          className="px-3 py-1 bg-gray-100 text-gray-700 text-sm font-medium rounded-full"
-                        >
-                          {tech}
-                        </span>
-                      ))}
                     </div>
                     
+                    <p className="text-gray-700 leading-relaxed mb-3 font-medium">
+                      {project.description}
+                    </p>
+                    
+                    <p className="text-gray-600 leading-relaxed mb-6">
+                      <strong>{project.details}</strong>
+                    </p>
+                    
+                    <div className="space-y-4">
+                      <div className="flex flex-wrap gap-2">
+                        {project.tech.map((tech, techIndex) => (
+                          <span 
+                            key={techIndex}
+                            className="px-3 py-1 bg-green-100 text-green-700 text-sm font-medium rounded-full"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                      <a
+                        href={project.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center text-green-600 hover:text-green-700 font-medium group"
+                      >
+                        View Live Project
+                        <ExternalLink className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-200" />
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
