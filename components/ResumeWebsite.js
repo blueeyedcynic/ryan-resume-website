@@ -126,7 +126,7 @@ const ResumeWebsite = () => {
                   Product Management
                 </p>
                 <p className="text-lg text-gray-600 leading-relaxed max-w-lg">
-                  Building exceptional products and leading cross-functional teams in fast-paced, high-growth environments.
+                  B2B SaaS | Data, Platform, APIs, AI | Customer Obsessed
                 </p>
               </div>
               
@@ -144,7 +144,7 @@ const ResumeWebsite = () => {
                   onClick={() => scrollToSection('projects')}
                   className="inline-flex items-center px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-lg hover:border-gray-400 hover:bg-gray-50 transition-all duration-300"
                 >
-                  View Projects
+                  View Exploratory Projects
                   <ChevronRight className="w-5 h-5 ml-2" />
                 </button>
               </div>
@@ -171,10 +171,10 @@ const ResumeWebsite = () => {
               <div>
                 <h2 className="text-4xl font-bold text-gray-900 mb-4">About Me</h2>
                 <p className="text-lg text-gray-700 leading-relaxed">
-                  Hey, I'm Ryan. I am a product Management leader with 15 years of experience in B2B SaaS and leading cross-functional teams in fast-paced, high-growth environments. I'm skilled in managing highly technical products and platform capabilities and experienced in taking products from 0 to 1.
+                  Hey, I'm Ryan. I am a product Management leader with 13 years of experience in B2B SaaS and leading strategy and execution in fast-paced, high-growth environments. I'm skilled in managing highly technical products, building customer relationships, scaling platform capabilities, and driving company goals through product-led growth.
                 </p>
                 <p className="text-lg text-gray-700 leading-relaxed mt-4">
-                  I have a strong track record of simplifying complex workflows, mentoring product manegers and designers, and aligning technical initiatives with product strategy and company goals. I thrive in environments that demand <strong>clarity, autonomy, and customer focus.</strong>
+                  I have a strong track record of mentoring product manegers and designers and diving deep into technical initiatives with engineers. I thrive in environments that demand <strong>clarity, autonomy, and customer obsession.</strong>
                 </p>
                 <p className="text-lg text-gray-700 leading-relaxed mt-4">
                   I live in Austin, Texas with my wife Katie. But you may find us roaming around the mountains in Colorado or visiting family back in Miami.
@@ -185,9 +185,11 @@ const ResumeWebsite = () => {
                 <div className="grid md:grid-cols-2 gap-4">
                   {[
                     "B2B / Enterprise Software",
+                    "Strategic Roadmaps",
+                    "Customer Engagement and Discovery",
                     "Cross-functional Leadership", 
                     "0-to-1 Product Development",
-                    "APIs, Platforms, and Integrations",
+                    "AI, APIs, Platforms, and Integrations",
                   ].map((skill, index) => (
                     <div key={index} className="flex items-center space-x-3 p-3 bg-green-50 rounded-lg">
                       <div className="w-2 h-2 bg-green-500 rounded-full"></div>
@@ -200,7 +202,7 @@ const ResumeWebsite = () => {
             
             <div className="space-y-4">
               <div className="bg-gray-100 rounded-2xl p-6 text-center">
-                <div className="w-48 h-48 bg-gray-300 rounded-xl mx-auto mb-4 flex items-center justify-center">
+                <div className="w-70 h-70 bg-gray-300 rounded-xl mx-auto mb-4 flex items-center justify-center">
                   <span className="text-gray-500 text-sm"><img src='/images/r-2.jpg' /></span>
                 </div>
               </div>
