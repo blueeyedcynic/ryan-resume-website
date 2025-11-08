@@ -10,6 +10,15 @@ const ResumeWebsite = () => {
   const projects = [
     {
       id: 1,
+      title: "LLM Prompt Library - Drive Adoption and Effecitveness",
+      description: "This web app stores my own personal prompt library AND showcases ways for teams to collaborate on and improve adoption of Generative AI within the context of a larger organzation.",
+      details: "Structure prompts with pre-set components, company context, goals, and team specific intitiatives. Track and rate versions. Collaborate on improvements.",
+      link: "https://ryans-prompt-library.vercel.app/",
+      tech: ["Prompt Engineering", "PostgreSQL", "User Focused Design"],
+      screenshot: "/images/pl-app.png"
+    },
+    {
+      id: 2,
       title: "AI Powered Weekday Hapy Hour Tracker - Vibes Over Everything",
       description: "This web app gives users easy ways to find weekday food and drink specials in Austin by vibe, area, and more.",
       details: "Users can do traditional search or 'describe their vibe' for dynamic suggestions powered by Claude via the Anthropic API. The app's admin module also has analytical agent workflows to automatically analyze user input and suggest new features or content additions.",
@@ -18,7 +27,7 @@ const ResumeWebsite = () => {
       screenshot: "/images/hh-app.jpg"
     },
     {
-      id: 2,
+      id: 3,
       title: "AI Powered Dynamic Feature Request Form",
       description: "Feature request forms can be static and boring. I wanted to jazz it up by leveraging an LLM for dynamic questions. In this project, I have a simple feature request wizard that walks a user through submission. But there's a twist...",
       details: "Initial responses along with user provided information are sent to an LLM for generating additional, targeted questions based on the data to that point. All final responses are published to a centralized Google Sheet.",
@@ -27,7 +36,7 @@ const ResumeWebsite = () => {
       screenshot: "/images/wizard-app.jpg"
     },
       {
-      id: 3,
+      id: 4,
       title: "AI Powered Virtual Cocktail Crafter",
       description: "I'm a home cocktail maker. A lot of times I like to find recipes based on what I have on hand, starting with the ingredeints available and getting creative.",
       details: "The Virtual Cocktail Crafter accepts user inputs on available ingredients then dynamically generates a prompt for the LLM to either provide recipes or a curated cocktail menu. Recipes can be shared via SMS on mobile.",
@@ -36,7 +45,7 @@ const ResumeWebsite = () => {
       screenshot: "/images/cocktail-app.jpg"
     },
     {
-      id: 4,
+      id: 5,
       title: "Austin Concerts Dashboard",
       description: "I love going to concerts. In this project I use a web scraper to crawl websites and gather concert information. The concerts are then categorized by venue and my favorite venues are the highlight.",
       details: " This was a straight vibe coding exercise and required a lot of testing and debugging to get things in place, including a complete debugging tool / UI for testing different sources for the data.",
@@ -45,7 +54,7 @@ const ResumeWebsite = () => {
       screenshot: "/images/concerts-app.jpg"
     },
         {
-      id: 5,
+      id: 6,
       title: "Woodland Park Tiki Route",
       description: "Growing up in Miami, snow was not a thing. So when we decided to spend more time in Colorado, there was some nervousness about road conditions and going to and from the mountains. The Woodland Park Tiki Route provides a quick view of road conditions on the driving route, pulling live data from a publicly available road conditions API.",
       details: "Check out the VERY sleek and modern UI here. Great stuff.",
