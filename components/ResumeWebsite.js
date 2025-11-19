@@ -19,7 +19,7 @@ const ResumeWebsite = () => {
     },
     {
       id: 2,
-      title: "AI Powered Weekday Hapy Hour Tracker - Vibes Over Everything",
+      title: "AI Powered Weekday Happy Hour Tracker - Vibes Over Everything",
       description: "This web app gives users easy ways to find weekday food and drink specials in Austin by vibe, area, and more.",
       details: "Users can do traditional search or 'describe their vibe' for dynamic suggestions powered by Claude via the Anthropic API. The app's admin module also has analytical agent workflows to automatically analyze user input and suggest new features or content additions.",
       link: "https://austin-weekday-happy-hours.vercel.app/",
