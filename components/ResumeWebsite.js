@@ -180,13 +180,13 @@ const ResumeWebsite = () => {
               <div>
                 <h2 className="text-4xl font-bold text-gray-900 mb-4">About Me</h2>
                 <p className="text-lg text-gray-700 leading-relaxed">
-                  Hey, I'm Ryan. I am a product Management leader with 13 years of experience in B2B SaaS and leading strategy and execution in fast-paced, high-growth environments. I'm skilled in managing highly technical products, building customer relationships, scaling platform capabilities, and driving company goals through product-led growth.
+                  Hey, I'm Ryan. I am a product leader with 13 years of experience in B2B SaaS. I lead vision, strategy, and execution in fast-paced, high-growth environments. I'm skilled in customer engagment and love forming relationships with users and prospects. I've managed highly technical products, scaled platform capabilities at growth-stage companies, and taken new products from 0 to 1.
                 </p>
                 <p className="text-lg text-gray-700 leading-relaxed mt-4">
-                  I have a strong track record of mentoring product manegers and designers and diving deep into technical initiatives with engineers. I thrive in environments that demand <strong>clarity, autonomy, and customer obsession.</strong>
+                  I have a strong track record of mentoring product manegers and designers. I love diving deep into technical initiatives with engineers. I thrive in environments that demand <strong>ownership, clarity, and customer obsession.</strong>
                 </p>
                 <p className="text-lg text-gray-700 leading-relaxed mt-4">
-                  I live in Austin, Texas with my wife Katie. But you may find us roaming around the mountains in Colorado or visiting family back in Miami.
+                  I live in Austin, Texas with my wife Katie. But, you may find us roaming around the mountains in Colorado or visiting family back in Miami.
                 </p>
               </div>
               <div className="space-y-4">
