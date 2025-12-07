@@ -1,0 +1,426 @@
+/* Metrc Presentation Styles - Scoped to .metrc-presentation */
+
+.metrc-presentation {
+    font-family: 'Epilogue', sans-serif;
+    background: #1a1a1a;
+    color: #f8f8f8;
+    overflow-x: hidden;
+    position: relative;
+    min-height: 100vh;
+}
+
+.metrc-presentation * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.metrc-presentation .bg-pattern {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.03;
+    background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 2px, #00A651 2px, #00A651 4px),
+        repeating-linear-gradient(90deg, transparent, transparent 2px, #00A651 2px, #00A651 4px);
+    pointer-events: none;
+}
+
+.metrc-presentation .logo {
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+    font-weight: 800;
+    font-size: 1.5rem;
+    color: #00A651;
+    z-index: 10;
+}
+
+.metrc-presentation .presentation {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.metrc-presentation .slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 100%;
+    display: none;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 6rem 2.5rem 8rem 2.5rem;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    overflow-y: auto;
+}
+
+.metrc-presentation .slide.active {
+    display: flex;
+    opacity: 1;
+}
+
+.metrc-presentation .slide-content {
+    max-width: 1100px;
+    width: 100%;
+    position: relative;
+    z-index: 2;
+    margin: auto 0;
+}
+
+.metrc-presentation .slide-number {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.875rem;
+    color: #666;
+    z-index: 10;
+}
+
+.metrc-presentation h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #00A651 0%, #FFB81C 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.metrc-presentation h2 {
+    font-size: 2.25rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1.25rem;
+    color: #f8f8f8;
+}
+
+.metrc-presentation h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #00A651;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.metrc-presentation .subtitle {
+    font-size: 1.25rem;
+    color: #666;
+    margin-bottom: 1.5rem;
+    font-weight: 300;
+}
+
+.metrc-presentation .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: start;
+}
+
+.metrc-presentation .content-section {
+    margin-bottom: 1.5rem;
+}
+
+.metrc-presentation ul {
+    list-style: none;
+    margin-left: 0;
+}
+
+.metrc-presentation li {
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: 0.65rem;
+    padding-left: 1.75rem;
+    position: relative;
+    color: #ddd;
+}
+
+.metrc-presentation li:before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: #00A651;
+    font-weight: 700;
+}
+
+.metrc-presentation .highlight-box {
+    background: linear-gradient(135deg, rgba(0, 166, 81, 0.1) 0%, rgba(255, 184, 28, 0.1) 100%);
+    border-left: 4px solid #00A651;
+    padding: 1rem 1.5rem;
+    margin: 1.25rem 0;
+    border-radius: 0 8px 8px 0;
+}
+
+.metrc-presentation .highlight-box p {
+    font-size: 1.05rem;
+    line-height: 1.5;
+    color: #f8f8f8;
+    margin: 0;
+}
+
+.metrc-presentation .vision-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin: 1.25rem 0;
+}
+
+.metrc-presentation .vision-card {
+    background: rgba(255,255,255,0.05);
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 166, 81, 0.3);
+    transition: all 0.3s ease;
+}
+
+.metrc-presentation .vision-card:hover {
+    background: rgba(0, 166, 81, 0.1);
+    border-color: #00A651;
+    transform: translateY(-4px);
+}
+
+.metrc-presentation .vision-card h4 {
+    color: #FFB81C;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.metrc-presentation .vision-card p {
+    color: #ccc;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.metrc-presentation .metric-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    margin: 1.25rem 0;
+}
+
+.metrc-presentation .metric-card {
+    background: rgba(255,255,255,0.05);
+    padding: 1.25rem;
+    border-radius: 12px;
+    text-align: center;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.metrc-presentation .metric-card:hover {
+    border-color: #00A651;
+    background: rgba(0, 166, 81, 0.08);
+}
+
+.metrc-presentation .metric-icon {
+    font-size: 2.25rem;
+    margin-bottom: 0.65rem;
+}
+
+.metrc-presentation .metric-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #00A651;
+    margin-bottom: 0.4rem;
+}
+
+.metrc-presentation .metric-desc {
+    font-size: 0.85rem;
+    color: #aaa;
+    line-height: 1.4;
+}
+
+.metrc-presentation .stakeholder-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin: 1.25rem 0;
+}
+
+.metrc-presentation .stakeholder-card {
+    background: linear-gradient(135deg, rgba(0, 166, 81, 0.1) 0%, rgba(0, 166, 81, 0.05) 100%);
+    padding: 1rem;
+    border-radius: 8px;
+    border-left: 4px solid #00A651;
+}
+
+.metrc-presentation .stakeholder-card h4 {
+    color: #FFB81C;
+    font-size: 1.1rem;
+    margin-bottom: 0.65rem;
+    font-weight: 600;
+}
+
+.metrc-presentation .priority-section {
+    background: rgba(255,255,255,0.03);
+    padding: 1.25rem;
+    border-radius: 12px;
+    margin-bottom: 1.25rem;
+    border: 1px solid rgba(0, 166, 81, 0.2);
+}
+
+.metrc-presentation .priority-section h4 {
+    color: #00A651;
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+    font-weight: 700;
+}
+
+.metrc-presentation .icon-large {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+.metrc-presentation .navigation {
+    position: fixed;
+    top: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 1rem;
+    z-index: 100;
+    background: rgba(0,0,0,0.7);
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    backdrop-filter: blur(10px);
+}
+
+.metrc-presentation .nav-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.metrc-presentation .nav-dot:hover {
+    background: rgba(255,255,255,0.6);
+    transform: scale(1.2);
+}
+
+.metrc-presentation .nav-dot.active {
+    background: #00A651;
+    width: 32px;
+    border-radius: 6px;
+}
+
+.metrc-presentation .scope-label {
+    display: inline-block;
+    background: rgba(255, 184, 28, 0.2);
+    color: #FFB81C;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-top: 0.5rem;
+}
+
+.metrc-presentation .visual-diagram {
+    position: relative;
+    height: 320px;
+    margin: 1.25rem 0;
+}
+
+.metrc-presentation .diagram-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 160px;
+    height: 160px;
+    background: linear-gradient(135deg, #00A651 0%, #008741 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 166, 81, 0.4);
+}
+
+.metrc-presentation .diagram-node {
+    position: absolute;
+    width: 215px;
+    height: 125px;
+    background: rgba(255,255,255,0.08);
+    border: 2px solid #00A651;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.05rem;
+    font-weight: 600;
+    text-align: center;
+    padding: 0.75rem;
+    transition: all 0.3s ease;
+}
+
+.metrc-presentation .diagram-node:hover {
+    background: rgba(0, 166, 81, 0.15);
+    transform: scale(1.05);
+}
+
+.metrc-presentation .diagram-node:nth-child(2) { top: 0; left: 50%; transform: translateX(-50%); }
+.metrc-presentation .diagram-node:nth-child(3) { top: 50%; right: 0; transform: translateY(-50%); }
+.metrc-presentation .diagram-node:nth-child(4) { bottom: 0; left: 50%; transform: translateX(-50%); }
+.metrc-presentation .diagram-node:nth-child(5) { top: 50%; left: 0; transform: translateY(-50%); }
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.metrc-presentation .slide.active .slide-content > * {
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+.metrc-presentation .slide.active .slide-content > *:nth-child(2) { animation-delay: 0.1s; }
+.metrc-presentation .slide.active .slide-content > *:nth-child(3) { animation-delay: 0.2s; }
+.metrc-presentation .slide.active .slide-content > *:nth-child(4) { animation-delay: 0.3s; }
+.metrc-presentation .slide.active .slide-content > *:nth-child(5) { animation-delay: 0.4s; }
+
+.metrc-presentation strong {
+    color: #00A651;
+    font-weight: 700;
+}
+
+.metrc-presentation .back-button {
+    position: absolute;
+    top: 2rem;
+    right: 8rem;
+    z-index: 100;
+    padding: 0.75rem 1.5rem;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 8px;
+    color: #f8f8f8;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.metrc-presentation .back-button:hover {
+    background: rgba(255,255,255,0.15);
+    border-color: #00A651;
+}
