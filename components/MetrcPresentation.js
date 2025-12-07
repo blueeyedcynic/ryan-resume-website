@@ -81,7 +81,7 @@ export default function MetrcPresentation({ onBack }) {
 
   const presentationHTML = `
     <div class="bg-pattern"></div>
-    <div class="logo">METRC</div>
+    <div class="logo">Metrc</div>
     <button class="back-button" onclick="window.metrcBackToMenu()">← Back to Menu</button>
 
     <div class="presentation">

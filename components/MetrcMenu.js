@@ -27,16 +27,16 @@ export default function MetrcMenu() {
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="max-w-2xl w-full p-8">
         <h1 className="text-4xl font-bold text-center text-gray-900 mb-8">
-          METRC Project
+          Metrc Project
         </h1>
-        <p className="text-gray-900 mb-8 text-center font-bold">
-            Hey Metrc team! Thanks for stopping by and checking out my take-home assignment. My process was to write the product brief, then feed the brief into Claude along with a detailed prompt on a presentation style I wanted.
+        <p className="text-gray-900 mb-8 text-center">
+            Hey Metrc team! Thanks for stopping by and checking out my take-home assignment. My process was to write the product brief based on what I've learned about Metrc so far as well. For the presentation, I fed the brief into Claude along with a detailed prompt. I then iterated with Claude code to refine the presentation and get it set up on my resume site.
         </p>
-        <p className="text-gray-900 mb-8 text-center font-bold">  
-            The brief provides full details on my approach and the presentation provides a high level walkthrough. I look forward to discussing this more!
+        <p className="text-gray-900 mb-8 text-center">  
+            The brief provides the detailed approach and the presentation provides a high level walkthrough. I look forward to discussing this more!
           </p>
         <div className="bg-white rounded-lg shadow-md p-8">
-          <p className="text-gray-600 mb-8 text-center">
+          <p className="text-gray-600 mb-8 text-center font-bold">
             Select an option below to view project materials
           </p>
           <div className="space-y-4">
