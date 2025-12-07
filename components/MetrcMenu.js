@@ -35,10 +35,8 @@ export default function MetrcMenu() {
           Metrc Project
         </h1>
         <p className="text-gray-900 mb-8 text-center">
-            Hey Metrc team! Thanks for stopping by and checking out my take-home assignment. My process was to write the product brief based on what I've learned about Metrc so far. For the presentation, I fed the brief into Claude along with a detailed prompt. I then iterated with Claude Code to refine the presentation and get it added to my <a onClick={handleResumeLink} className="underline">resume site</a>.
-        </p>
-        <p className="text-gray-900 mb-8 text-center">  
-            The brief provides the detailed approach and the presentation provides a high level walkthrough. I look forward to discussing this more!
+            Hey Metrc team! Thanks for checking out my take-home assignment. 
+            The product brief provides the full, detailed document. The presentation provides a high level walkthrough. I look forward to discussing this more!
           </p>
         <div className="bg-white rounded-lg shadow-md p-8">
           <p className="text-gray-600 mb-8 text-center font-bold">
