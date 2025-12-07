@@ -11,6 +11,11 @@ export default function MetrcMenu() {
     window.open('https://docs.google.com/document/d/16qze9leji2rW3DMvN5VwIAcbmVUjEqKoPt2pEsVR1B4/edit?usp=sharing', '_blank')
   }
 
+  const handleResumeLink = () => {
+    // Replace this URL with your actual product brief link
+    window.open('https://www.ryanandrews.me', '_blank')
+  }
+
   const handleViewPresentation = () => {
     setShowPresentation(true)
   }
@@ -30,7 +35,7 @@ export default function MetrcMenu() {
           Metrc Project
         </h1>
         <p className="text-gray-900 mb-8 text-center">
-            Hey Metrc team! Thanks for stopping by and checking out my take-home assignment. My process was to write the product brief based on what I've learned about Metrc so far as well. For the presentation, I fed the brief into Claude along with a detailed prompt. I then iterated with Claude code to refine the presentation and get it set up on my resume site.
+            Hey Metrc team! Thanks for stopping by and checking out my take-home assignment. My process was to write the product brief based on what I've learned about Metrc so far. For the presentation, I fed the brief into Claude along with a detailed prompt. I then iterated with Claude Code to refine the presentation and get it added to my <a onClick={handleResumeLink} className="underline">resume site</a>.
         </p>
         <p className="text-gray-900 mb-8 text-center">  
             The brief provides the detailed approach and the presentation provides a high level walkthrough. I look forward to discussing this more!
