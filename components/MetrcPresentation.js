@@ -224,7 +224,7 @@ export default function MetrcPresentation({ onBack }) {
                 <p class="subtitle">Building the foundation to scale</p>
 
                 <div class="priority-section">
-                    <h4>🏗️ Foundation: Scalable Registry Infrastructure</h4>
+                    <h4>🏗️ Foundation: Scalable Registry Infrastructure with Standardized Product Metadata</h4>
                     <ul>
                         <li>Standardized data model supporting Retail ID, B2B SaaS, and analytics</li>
                         <li>Migration system for existing state-specific data</li>
