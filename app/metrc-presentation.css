@@ -122,7 +122,7 @@
 
 .metrc-presentation .two-col {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 35fr 65fr;
     gap: 2rem;
     align-items: start;
 }
@@ -248,6 +248,13 @@
     margin: 1.25rem 0;
 }
 
+.metrc-presentation .stakeholder-grid-five {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.85rem;
+    margin: 1.25rem 0;
+}
+
 .metrc-presentation .stakeholder-card {
     background: linear-gradient(135deg, rgba(0, 166, 81, 0.1) 0%, rgba(0, 166, 81, 0.05) 100%);
     padding: 1rem;
@@ -353,7 +360,7 @@
 
 .metrc-presentation .diagram-node {
     position: absolute;
-    width: 215px;
+    width: 315px;
     height: 125px;
     background: rgba(255,255,255,0.08);
     border: 2px solid #00A651;

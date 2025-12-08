@@ -90,9 +90,8 @@ export default function MetrcPresentation({ onBack }) {
             <div class="slide-number">01</div>
             <div class="slide-content">
                 <h1>Metrc Global<br>Product Registry</h1>
-                <p class="subtitle">Becoming the industry source of truth</p>
                 <div class="highlight-box">
-                    <p>A centralized product registry that unifies siloed state data, enables true interstate tracking, and establishes Metrc as the cannabis industry's single source of truth.</p>
+                    <p>A centralized product registry that unifies siloed state data, enables true interstate tracking, and establishes Metrc as the cannabis industry's single source of truth, enabling a full ecosystem of products.</p>
                 </div>
             </div>
         </div>
@@ -101,10 +100,10 @@ export default function MetrcPresentation({ onBack }) {
         <div class="slide" data-slide="1">
             <div class="slide-number">02</div>
             <div class="slide-content">
-                <h2>The Fragmented Landscape</h2>
+                <h2>A Fragmented Landscape</h2>
                 <div class="two-col">
                     <div>
-                        <h3>🔗 The Core Problem</h3>
+                        <h3>🔗 The Core Problems</h3>
                         <ul>
                             <li>No centralized source of truth for product data</li>
                             <li>State-by-state regulatory silos prevent data linking</li>
@@ -114,7 +113,7 @@ export default function MetrcPresentation({ onBack }) {
                     </div>
                     <div>
                         <h3>👥 Who This Impacts</h3>
-                        <div class="stakeholder-grid">
+                        <div class="stakeholder-grid-five">
                             <div class="stakeholder-card">
                                 <h4>Regulators</h4>
                                 <ul>
@@ -141,6 +140,13 @@ export default function MetrcPresentation({ onBack }) {
                                 <ul>
                                     <li>Lack central data access</li>
                                     <li>Can't build integrated tools</li>
+                                </ul>
+                            </div>
+                            <div class="stakeholder-card">
+                                <h4>Consumers</h4>
+                                <ul>
+                                    <li>Want to buy products they trust</li>
+                                    <li>From sources they trust</li>
                                 </ul>
                             </div>
                         </div>
@@ -231,7 +237,6 @@ export default function MetrcPresentation({ onBack }) {
                         <li>Product storage with full historical logging (identifiers, profiling, compliance)</li>
                         <li>Configurable, permission-based data access</li>
                     </ul>
-                    <span class="scope-label">Focused on source tracking, not full supply chain movement</span>
                 </div>
 
                 <div class="priority-section">
@@ -241,7 +246,6 @@ export default function MetrcPresentation({ onBack }) {
                         <li>Enable Retail ID to pull from Product Registry</li>
                         <li>Metrc Certified ☑️ program for qualified vendor partnerships</li>
                     </ul>
-                    <span class="scope-label">Launch: READ operations only</span>
                 </div>
 
                 <div class="highlight-box" style="margin-top: 2rem;">
@@ -304,7 +308,7 @@ export default function MetrcPresentation({ onBack }) {
                         <div class="metric-desc">
                             • Registry % vs Metrc state data<br>
                             • Registry % vs industry data<br>
-                            <em>Validates migration system</em>
+                            <em>Validates registry & migration system</em>
                         </div>
                     </div>
                     <div class="metric-card">
