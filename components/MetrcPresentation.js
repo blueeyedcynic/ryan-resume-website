@@ -335,7 +335,7 @@ export default function MetrcPresentation({ onBack }) {
 
                 <div class="highlight-box" style="margin-top: 2rem;">
                     <p><strong>Success = Registry becomes the default integration point for cannabis software ecosystem</strong></p>
-                     <p><strong>Success = Retails ID becomes the standard identifier for cannabis products across the ecosystem</strong></p>
+                     <p><strong>Success = Retail ID becomes the standard identifier for cannabis products across the ecosystem</strong></p>
                 </div>
             </div>
         </div>
