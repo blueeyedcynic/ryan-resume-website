@@ -89,9 +89,10 @@ export default function MetrcPresentation({ onBack }) {
         <div class="slide active" data-slide="0">
             <div class="slide-number">01</div>
             <div class="slide-content">
-                <h1>Metrc Global<br>Product Registry</h1>
+                <h1>Metrc Retail ID and <br> Global Product Registry</h1>
                 <div class="highlight-box">
-                    <p>A centralized product registry that unifies siloed state data, enables true interstate tracking, and establishes Metrc as the cannabis industry's single source of truth, enabling a full ecosystem of products.</p>
+                    <p>The centralized product registry that unifies siloed state data, enables true interstate tracking, and establishes Metrc as the cannabis industry's single source of truth.<br><br>
+                    Enables a full ecosystem of products and powers industry track-and-trace with Metrc's Retail ID.</p>
                 </div>
             </div>
         </div>
@@ -109,6 +110,7 @@ export default function MetrcPresentation({ onBack }) {
                             <li>State-by-state regulatory silos prevent data linking</li>
                             <li>Multi-state brands can't track or aggregate their data</li>
                             <li>Industry lacks flexibility for federal regulation changes</li>
+                            <li>Metrc’s existing Retail ID is not backed by a global, single source of truth</li>
                         </ul>
                     </div>
                     <div>
@@ -213,7 +215,7 @@ export default function MetrcPresentation({ onBack }) {
                 <div class="content-section">
                     <ul style="font-size: 1.25rem;">
                         <li><strong>Establish a strong foundation</strong> as the industry source of truth to build upon</li>
-                        <li><strong>Leverage Metrc's existing state-level data</strong> to hydrate this new offering from the start</li>
+                        <li><strong>Leverage Metrc's existing state-level data</strong> to hydrate this new offering and <strong>power Retail ID</strong> from the start</li>
                         <li><strong>Iterate early and often</strong> using feedback from a wide range of partners by entering the market as an integrations-first product</li>
                     </ul>
                 </div>
@@ -243,7 +245,7 @@ export default function MetrcPresentation({ onBack }) {
                     <h4>🔌 Integrations: Market Entry Strategy</h4>
                     <ul>
                         <li>Public APIs with secured, scoped access</li>
-                        <li>Enable Retail ID to pull from Product Registry</li>
+                        <li>Enable Retail ID to integrate with the Product Registry</li>
                         <li>Metrc Certified ☑️ program for qualified vendor partnerships</li>
                     </ul>
                 </div>
@@ -269,7 +271,7 @@ export default function MetrcPresentation({ onBack }) {
                 <div class="content-section">
                     <h3>🏛️ Regulator Needs & Commercial Approach</h3>
                     <p style="color: #aaa; margin-bottom: 0.75rem;"><strong>Hypothesis:</strong> Until federal regulations change, state regulator bodies will stay focused on their state-specific data. Additional interstate and supply chain metadata will be needed when regulations change.</p>
-                    <p style="color: #ccc; margin-bottom: 1.5rem;"><strong style="color: #FFB81C;">Action:</strong> Validate what the inflection point is for a non-state-specific regulatory data exchange through discovery process with stakeholders across brand and regulator stakeholders.</p>
+                    <p style="color: #ccc; margin-bottom: 1.5rem;"><strong style="color: #FFB81C;">Action:</strong> Validate what the inflection point is for a non-state-specific regulatory data exchange through discovery process across brand and regulator stakeholders.</p>
                 </div>
 
                 <div class="content-section">
@@ -317,7 +319,7 @@ export default function MetrcPresentation({ onBack }) {
                         <div class="metric-desc">
                             • 3rd party vendor count (QoQ)<br>
                             • API transaction volume (MoM)<br>
-                            <em>Measures ecosystem adoption</em>
+                            <em>Measures integration adoption</em>
                         </div>
                     </div>
                     <div class="metric-card">
@@ -325,6 +327,7 @@ export default function MetrcPresentation({ onBack }) {
                         <div class="metric-title">Data Utilization</div>
                         <div class="metric-desc">
                             • % of dataset accessed by partners<br>
+                            • Registry % accessed via Retail ID<br>
                             <em>Tracks real value delivery</em>
                         </div>
                     </div>
@@ -332,6 +335,7 @@ export default function MetrcPresentation({ onBack }) {
 
                 <div class="highlight-box" style="margin-top: 2rem;">
                     <p><strong>Success = Registry becomes the default integration point for cannabis software ecosystem</strong></p>
+                     <p><strong>Success = Retails ID becomes the standard identifier for cannabis products across the ecosystem</strong></p>
                 </div>
             </div>
         </div>
