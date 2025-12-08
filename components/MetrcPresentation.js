@@ -179,6 +179,11 @@ export default function MetrcPresentation({ onBack }) {
                 <h3 style="margin-top: 3rem;">
                 🎯 Vision and Foundation Principles
                 </h3>
+                <div class="highlight-box">
+                    <p>
+                    Retail ID will be the industry standard identifier for products. Product Registry will be the industry’s source of truth that powers an entire ecosystem of applications.
+                    </p>
+                </div>
                 <div class="vision-grid">
                     <div class="vision-card">
                         <h4>Built for Scale</h4>
