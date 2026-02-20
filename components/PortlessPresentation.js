@@ -1593,7 +1593,7 @@ export default function PortlessPresentation({ onBack }) {
           <div class="phase-item"><div class="phase-item-icon">📣</div>In-app announcement banners surfacing new features where merchants will see them</div>
           <div class="phase-item"><div class="phase-item-icon">🎬</div>Short walkthrough videos embedded in portal and linked from email comms</div>
           <div class="phase-item"><div class="phase-item-icon">📚</div>Referenceable help documentation merchants can return to independently</div>
-          <div class="phase-item"><div class="phase-item-icon">💬</div>Feedback loops built in — merchants can flag issues or request enhancements inline</div>
+          <div class="phase-item"><div class="phase-item-icon">💬</div>Feedback loops built in — merchants can flag issues or request enhancements</div>
         </div>
         <div class="audience-badges">
           <span class="user-tag tag-merchant">Merchant Ops</span>
