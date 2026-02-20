@@ -2,10 +2,18 @@ import { NextResponse } from 'next/server'
 
 export async function POST(request) {
   try {
-    const { password } = await request.json()
+    const { password, project } = await request.json()
 
-    // Get the password from environment variable
-    const correctPassword = process.env.METRC_PASSWORD
+    // Get the appropriate password from environment variable based on project
+    let correctPassword
+    if (project === 'portless') {
+      correctPassword = process.env.PORTLESS_PASSWORD
+    } else if (project === 'metrc') {
+      correctPassword = process.env.METRC_PASSWORD
+    } else {
+      // Default to METRC for backward compatibility
+      correctPassword = process.env.METRC_PASSWORD
+    }
 
     if (!correctPassword) {
       return NextResponse.json(

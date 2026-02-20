@@ -1,9 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import MetrcMenu from '../../components/MetrcMenu'
+import PortlessMenu from '../../components/PortlessMenu'
 
-export default function MetrcPage() {
+export default function PortlessPage() {
   const [password, setPassword] = useState('')
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [error, setError] = useState('')
@@ -20,7 +20,7 @@ export default function MetrcPage() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ password, project: 'metrc' }),
+        body: JSON.stringify({ password, project: 'portless' }),
       })
 
       const data = await response.json()
@@ -85,5 +85,5 @@ export default function MetrcPage() {
     )
   }
 
-  return <MetrcMenu />
+  return <PortlessMenu />
 }

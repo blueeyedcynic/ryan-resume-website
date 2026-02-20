@@ -1,0 +1,1702 @@
+'use client'
+
+import { useEffect } from 'react'
+
+export default function PortlessPresentation({ onBack }) {
+  useEffect(() => {
+    // Load Google Fonts
+    const link = document.createElement('link')
+    link.href = 'https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap'
+    link.rel = 'stylesheet'
+    document.head.appendChild(link)
+
+    // Presentation navigation
+    let current = 0
+    const total = 6
+    const slides = document.querySelectorAll('.slide')
+    const navPills = document.querySelectorAll('.nav-pill')
+    const dotsContainer = document.getElementById('dots')
+    const progress = document.getElementById('progress')
+    const slideNum = document.getElementById('slide-num')
+
+    // Build dots
+    if (dotsContainer) {
+      for (let i = 0; i < total; i++) {
+        const d = document.createElement('div')
+        d.className = 'dot' + (i === 0 ? ' active' : '')
+        d.onclick = () => goTo(i)
+        dotsContainer.appendChild(d)
+      }
+    }
+
+    function goTo(idx) {
+      if (idx < 0 || idx >= total) return
+      slides[current].classList.remove('active')
+      slides[current].classList.add('prev')
+      setTimeout(() => slides[current].classList.remove('prev'), 400)
+
+      navPills[current].classList.remove('active')
+      if (dotsContainer) dotsContainer.children[current].classList.remove('active')
+
+      current = idx
+      slides[current].classList.add('active')
+      navPills[current].classList.add('active')
+      if (dotsContainer) dotsContainer.children[current].classList.add('active')
+
+      if (slideNum) slideNum.textContent = current + 1
+      if (progress) progress.style.width = ((current + 1) / total * 100) + '%'
+      const prevBtn = document.getElementById('prev-btn')
+      const nextBtn = document.getElementById('next-btn')
+      if (prevBtn) prevBtn.disabled = current === 0
+      if (nextBtn) nextBtn.disabled = current === total - 1
+    }
+
+    window.goTo = goTo
+    window.nextSlide = () => goTo(current + 1)
+    window.prevSlide = () => goTo(current - 1)
+
+    // Keyboard navigation
+    const handleKeyDown = (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') window.nextSlide()
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') window.prevSlide()
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+
+    // Init progress
+    if (progress) progress.style.width = (1 / total * 100) + '%'
+
+    // Cleanup
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+      if (link.parentNode) document.head.removeChild(link)
+      delete window.goTo
+      delete window.nextSlide
+      delete window.prevSlide
+    }
+  }, [])
+
+  const presentationHTML = `
+<style>
+  :root {
+    --black: #0a0a0a;
+    --dark: #111111;
+    --card: #181818;
+    --border: #2a2a2a;
+    --accent: #4F8EF7;
+    --accent-dim: rgba(79,142,247,0.12);
+    --accent-mid: rgba(79,142,247,0.35);
+    --white: #f5f5f0;
+    --muted: #888880;
+    --text: #d8d8d0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--black);
+    color: var(--white);
+    height: 100vh;
+    overflow: hidden;
+    cursor: default;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 40px;
+    background: rgba(10,10,10,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.02em;
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .nav-logo-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: inline-block;
+  }
+
+  .nav-pills {
+    display: flex;
+    gap: 4px;
+  }
+
+  .nav-pill {
+    padding: 5px 14px;
+    border-radius: 100px;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border: 1px solid transparent;
+    color: var(--muted);
+    transition: all 0.2s;
+    background: none;
+  }
+  .nav-pill:hover { color: var(--white); border-color: var(--border); }
+  .nav-pill.active { background: var(--accent); color: var(--black); border-color: var(--accent); font-weight: 700; }
+
+  .nav-counter {
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    font-weight: 500;
+  }
+  .nav-counter span { color: var(--accent); }
+
+  /* ── SLIDES ── */
+  .slides-container {
+    height: 100vh;
+    padding-top: 65px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 65px 0 0 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    transform: translateX(30px);
+    overflow-y: auto;
+    padding: 50px 60px 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+  .slide.active {
+    opacity: 1;
+    pointer-events: all;
+    transform: translateX(0);
+  }
+  .slide.prev {
+    transform: translateX(-30px);
+  }
+
+  /* ── TYPOGRAPHY ── */
+  .slide-eyebrow {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .slide-eyebrow::before {
+    content: '';
+    width: 24px; height: 1px;
+    background: var(--accent);
+    display: inline-block;
+  }
+
+  .slide-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    line-height: 1.1;
+    color: var(--white);
+  }
+  .slide-title em { color: var(--accent); font-style: italic; }
+
+  .slide-subtitle {
+    font-size: 1rem;
+    color: var(--muted);
+    line-height: 1.6;
+    max-width: 600px;
+  }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px 32px;
+    transition: border-color 0.2s;
+  }
+  .card:hover { border-color: #3a3a3a; }
+
+  .card-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .card-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+  .card-body {
+    font-size: 0.875rem;
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  /* ── GRID LAYOUTS ── */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 14px; }
+
+  /* ── SLIDE 1: INTRO ── */
+  .intro-hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+
+  .intro-left { display: flex; flex-direction: column; gap: 20px; }
+  .intro-left .slide-title { font-size: clamp(2.2rem, 4.5vw, 3.8rem); }
+
+  .context-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 12px 12px 0;
+    padding: 22px 24px;
+  }
+  .context-box-label {
+    font-size: 0.63rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .context-box p {
+    font-size: 0.875rem;
+    color: var(--text);
+    line-height: 1.65;
+  }
+
+  .stat-row {
+    display: flex;
+    gap: 12px;
+  }
+  .stat-chip {
+    background: var(--accent-dim);
+    border: 1px solid var(--accent-mid);
+    border-radius: 10px;
+    padding: 14px 18px;
+    flex: 1;
+    text-align: center;
+  }
+  .stat-chip-val {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.8rem;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .stat-chip-label {
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .intro-right { display: flex; flex-direction: column; gap: 14px; }
+
+  .journey-timeline {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+  }
+  .journey-timeline-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 18px;
+  }
+  .journey-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .journey-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .journey-step-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+  .journey-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--border);
+    border: 2px solid var(--border);
+    flex-shrink: 0;
+    margin-top: 4px;
+    transition: all 0.3s;
+  }
+  .journey-dot.active-dot { background: var(--accent); border-color: var(--accent); }
+  .journey-line {
+    width: 1px;
+    height: 28px;
+    background: var(--border);
+  }
+  .journey-step-content { padding-bottom: 4px; }
+  .journey-step-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 2px;
+  }
+  .journey-step-sub {
+    font-size: 0.7rem;
+    color: var(--muted);
+  }
+
+  .problem-card {
+    background: linear-gradient(135deg, var(--card) 0%, rgba(79,142,247,0.05) 100%);
+    border: 1px solid var(--accent-mid);
+    border-radius: 16px;
+    padding: 24px;
+  }
+  .problem-card-head {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .problem-card p {
+    font-size: 0.925rem;
+    color: var(--text);
+    line-height: 1.65;
+  }
+
+  .agenda-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .agenda-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    font-size: 0.85rem;
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .agenda-item:hover { border-color: var(--accent-mid); color: var(--white); }
+  .agenda-num {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--accent-dim);
+    border: 1px solid var(--accent-mid);
+    color: var(--accent);
+    font-size: 0.65rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* ── USER TYPE TAGS ── */
+  .user-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 10px;
+    border-radius: 100px;
+    font-size: 0.63rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .tag-internal { background: rgba(99,102,241,0.15); color: #a5b4fc; border: 1px solid rgba(99,102,241,0.3); }
+  .tag-merchant { background: rgba(249,115,22,0.15); color: #fdba74; border: 1px solid rgba(249,115,22,0.3); }
+  .tag-consumer { background: rgba(79,142,247,0.12); color: var(--accent); border: 1px solid var(--accent-mid); }
+
+  /* ── SLIDE 2: DISCOVERY USERS ── */
+  .user-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .user-card:hover { border-color: #3a3a3a; transform: translateY(-2px); }
+  .user-card-icon {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    margin-bottom: 2px;
+  }
+  .icon-internal { background: rgba(99,102,241,0.15); }
+  .icon-merchant { background: rgba(249,115,22,0.15); }
+  .icon-consumer { background: rgba(79,142,247,0.12); }
+
+  .user-card-questions {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 6px;
+  }
+  .user-q {
+    font-size: 0.72rem;
+    color: var(--muted);
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    line-height: 1.45;
+  }
+  .user-q::before {
+    content: '→';
+    font-size: 0.6rem;
+    color: var(--border);
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+
+  .data-sources-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+  .data-source-chip {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .ds-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+
+  /* ── SLIDE 3: FEATURE COVERAGE ── */
+  .coverage-table-wrap {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .coverage-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.78rem;
+  }
+  .coverage-table thead tr {
+    background: #1c1c1c;
+    border-bottom: 1px solid var(--border);
+  }
+  .coverage-table th {
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 0.63rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .coverage-table th:not(:first-child) { text-align: center; }
+  .coverage-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+    color: var(--text);
+  }
+  .coverage-table tr:last-child td { border-bottom: none; }
+  .coverage-table td:not(:first-child) { text-align: center; }
+  .coverage-table .feature-name { font-weight: 500; color: var(--white); font-size: 0.8rem; }
+  .coverage-table .section-header td {
+    background: #161616;
+    font-size: 0.63rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 8px 16px;
+  }
+
+  .score-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px; height: 28px;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    cursor: default;
+  }
+  .score-0 { background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.3); }
+  .score-1 { background: rgba(234,179,8,0.15); color: #fbbf24; border: 1px solid rgba(234,179,8,0.3); }
+  .score-2 { background: rgba(59,130,246,0.15); color: #93c5fd; border: 1px solid rgba(59,130,246,0.3); }
+  .score-3 { background: rgba(34,197,94,0.15); color: #86efac; border: 1px solid rgba(34,197,94,0.3); }
+  .score-4 { background: rgba(79,142,247,0.15); color: var(--accent); border: 1px solid var(--accent-mid); }
+
+  .score-legend {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.68rem;
+    color: var(--muted);
+  }
+
+  /* ── SLIDE 4: SOLUTION VISION ── */
+  .order-journey-visual {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px 28px;
+  }
+  .ojv-stages {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    position: relative;
+  }
+  .ojv-stage {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+  }
+  .ojv-stage:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 16px;
+    right: -16px;
+    width: 32px;
+    height: 1px;
+    background: linear-gradient(to right, var(--border), var(--border));
+    z-index: 1;
+  }
+  .ojv-icon {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--border);
+    border: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    z-index: 2;
+    transition: all 0.2s;
+  }
+  .ojv-stage.highlighted .ojv-icon { background: var(--accent-dim); border-color: var(--accent); }
+  .ojv-label {
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-align: center;
+    color: var(--muted);
+    line-height: 1.3;
+  }
+  .ojv-stage.highlighted .ojv-label { color: var(--white); }
+  .ojv-tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 3px;
+    margin-top: 2px;
+  }
+  .ojv-tag {
+    font-size: 0.55rem;
+    padding: 2px 6px;
+    border-radius: 100px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .metric-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .metric-icon {
+    width: 34px; height: 34px;
+    border-radius: 8px;
+    background: var(--accent-dim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+  }
+  .metric-title { font-size: 0.82rem; font-weight: 600; color: var(--white); margin-bottom: 3px; }
+  .metric-sub { font-size: 0.72rem; color: var(--muted); line-height: 1.4; }
+
+  .execution-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .exec-step {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 16px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 0.82rem;
+    color: var(--text);
+  }
+  .exec-step-num {
+    width: 24px; height: 24px;
+    border-radius: 6px;
+    background: var(--accent-dim);
+    border: 1px solid var(--accent-mid);
+    color: var(--accent);
+    font-size: 0.65rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* ── SLIDE 5: DATA INTEGRITY ── */
+  .data-flow-diagram {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    display: flex;
+    gap: 0;
+    align-items: stretch;
+  }
+
+  .dfd-column {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .dfd-col-label {
+    font-size: 0.63rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+    text-align: center;
+  }
+  .dfd-sources { width: 220px; }
+  .dfd-middle {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px;
+    position: relative;
+  }
+  .dfd-outputs { width: 220px; }
+
+  .source-node {
+    background: #1d1d1d;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    position: relative;
+  }
+  .source-node-name {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--white);
+  }
+  .source-node-raw {
+    font-size: 0.65rem;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+  }
+  .raw-event {
+    background: rgba(239,68,68,0.1);
+    border: 1px solid rgba(239,68,68,0.2);
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-size: 0.6rem;
+    color: #f87171;
+    font-family: monospace;
+    display: inline-block;
+    margin: 1px 2px 1px 0;
+  }
+
+  .portless-hub {
+    background: linear-gradient(135deg, var(--accent-dim) 0%, rgba(79,142,247,0.06) 100%);
+    border: 1px solid var(--accent-mid);
+    border-radius: 16px;
+    padding: 20px 18px;
+    width: 180px;
+    text-align: center;
+    box-shadow: 0 0 40px rgba(79,142,247,0.08);
+  }
+  .hub-label {
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .hub-events {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .hub-event {
+    background: rgba(79,142,247,0.12);
+    border: 1px solid var(--accent-mid);
+    border-radius: 6px;
+    padding: 5px 8px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: var(--accent);
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .hub-event-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+
+  .output-node {
+    background: #1d1d1d;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .output-icon {
+    width: 28px; height: 28px;
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    flex-shrink: 0;
+  }
+  .output-name { font-size: 0.78rem; font-weight: 600; color: var(--white); margin-bottom: 2px; }
+  .output-detail { font-size: 0.63rem; color: var(--muted); line-height: 1.3; }
+
+  .connector-svg {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    inset: 0;
+  }
+
+  /* ── SLIDE 6: LAUNCH ── */
+  .launch-phases {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .phase-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .phase-badge {
+    padding: 4px 12px;
+    border-radius: 100px;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .badge-before { background: rgba(99,102,241,0.15); color: #a5b4fc; border: 1px solid rgba(99,102,241,0.3); }
+  .badge-launch { background: rgba(249,115,22,0.15); color: #fdba74; border: 1px solid rgba(249,115,22,0.3); }
+  .badge-post { background: rgba(79,142,247,0.12); color: var(--accent); border: 1px solid var(--accent-mid); }
+
+  .phase-title { font-size: 1rem; font-weight: 600; color: var(--white); }
+
+  .phase-items { display: flex; flex-direction: column; gap: 6px; }
+  .phase-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 0.78rem;
+    color: var(--text);
+    line-height: 1.45;
+    padding: 8px 10px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.02);
+  }
+  .phase-item-icon { font-size: 0.8rem; flex-shrink: 0; }
+
+  .audience-badges { display: flex; gap: 6px; flex-wrap: wrap; }
+
+  /* ── ARROWS / CONNECTORS ── */
+  .arrow-connector {
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+  }
+  .arrow-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .arrow-head {
+    width: 0;
+    height: 0;
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+    border-left: 6px solid var(--border);
+  }
+
+  /* ── CONTROLS ── */
+  .slide-controls {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(18,18,18,0.95);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 8px 20px;
+    z-index: 100;
+  }
+  .ctrl-btn {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: none;
+    color: var(--white);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+  }
+  .ctrl-btn:hover:not(:disabled) { background: var(--accent); color: var(--black); border-color: var(--accent); }
+  .ctrl-btn:disabled { opacity: 0.25; cursor: not-allowed; }
+
+  .dots {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+  .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--border);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .dot.active { background: var(--accent); width: 20px; border-radius: 3px; }
+
+  /* ── PROGRESS BAR ── */
+  .progress-bar {
+    position: fixed;
+    top: 65px;
+    left: 0;
+    height: 2px;
+    background: var(--accent);
+    transition: width 0.4s ease;
+    z-index: 90;
+  }
+
+  /* ── SECTION DIVIDER ── */
+  .section-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 4px 0;
+  }
+  .divider-label {
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .divider-line { flex: 1; height: 1px; background: var(--border); }
+
+  /* scrollbar */
+  .slide::-webkit-scrollbar { width: 4px; }
+  .slide::-webkit-scrollbar-track { background: transparent; }
+  .slide::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  /* animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .slide.active > * {
+    animation: fadeUp 0.5s ease forwards;
+    opacity: 0;
+  }
+  .slide.active > *:nth-child(1) { animation-delay: 0.05s; }
+  .slide.active > *:nth-child(2) { animation-delay: 0.12s; }
+  .slide.active > *:nth-child(3) { animation-delay: 0.19s; }
+  .slide.active > *:nth-child(4) { animation-delay: 0.26s; }
+  .slide.active > *:nth-child(5) { animation-delay: 0.33s; }
+  .slide.active > *:nth-child(6) { animation-delay: 0.4s; }
+</style>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <span class="nav-logo-dot"></span>
+    Portless · WISMO Case Study
+  </div>
+  <div class="nav-pills">
+    <button class="nav-pill active" onclick="goTo(0)">Intro</button>
+    <button class="nav-pill" onclick="goTo(1)">Discovery I</button>
+    <button class="nav-pill" onclick="goTo(2)">Discovery II</button>
+    <button class="nav-pill" onclick="goTo(3)">Solution I</button>
+    <button class="nav-pill" onclick="goTo(4)">Solution II</button>
+    <button class="nav-pill" onclick="goTo(5)">Launch</button>
+  </div>
+  <div class="nav-counter"><span id="slide-num">1</span> / 6</div>
+</nav>
+
+<div class="progress-bar" id="progress"></div>
+
+<!-- SLIDES -->
+<div class="slides-container">
+
+  <!-- ── SLIDE 1: INTRO ── -->
+  <div class="slide active" id="slide-0">
+    <div class="slide-eyebrow">Product Manager Case Study</div>
+    <div class="intro-hero">
+      <div class="intro-left">
+        <div class="slide-title">Improving<br><em>WISMO</em> at<br>Portless</div>
+        <div class="context-box">
+          <div class="context-box-label">The Prompt</div>
+          <p>Portless is a global 3PL enabling deliveries to 50+ countries. We need to improve the WISMO solution — improving visibility of the delivery journey from order capture to final delivery, for internal teams, merchants, and their customers.</p>
+        </div>
+        <div class="stat-row">
+          <div class="stat-chip"><div class="stat-chip-val">50+</div><div class="stat-chip-label">Countries</div></div>
+          <div class="stat-chip"><div class="stat-chip-val">3</div><div class="stat-chip-label">User Types</div></div>
+          <div class="stat-chip"><div class="stat-chip-val">2</div><div class="stat-chip-label">Surface Areas</div></div>
+        </div>
+      </div>
+      <div class="intro-right">
+        <div class="journey-timeline">
+          <div class="journey-timeline-label">Order Journey — Today</div>
+          <div class="journey-steps">
+            <div class="journey-step">
+              <div class="journey-step-left"><div class="journey-dot active-dot"></div><div class="journey-line"></div></div>
+              <div class="journey-step-content"><div class="journey-step-title">Order Captured</div><div class="journey-step-sub">Merchant storefront → Portless</div></div>
+            </div>
+            <div class="journey-step">
+              <div class="journey-step-left"><div class="journey-dot active-dot"></div><div class="journey-line"></div></div>
+              <div class="journey-step-content"><div class="journey-step-title">Warehouse Fulfillment</div><div class="journey-step-sub">Pick, pack & ship at origin warehouse</div></div>
+            </div>
+            <div class="journey-step">
+              <div class="journey-step-left"><div class="journey-dot active-dot"></div><div class="journey-line"></div></div>
+              <div class="journey-step-content"><div class="journey-step-title">First Mile — Air Freight</div><div class="journey-step-sub">Sorted bundles to destination country</div></div>
+            </div>
+            <div class="journey-step">
+              <div class="journey-step-left"><div class="journey-dot active-dot"></div><div class="journey-line"></div></div>
+              <div class="journey-step-content"><div class="journey-step-title">In-Country + Customs</div><div class="journey-step-sub">Clearance, handoff to local carrier</div></div>
+            </div>
+            <div class="journey-step">
+              <div class="journey-step-left"><div class="journey-dot active-dot"></div></div>
+              <div class="journey-step-content"><div class="journey-step-title">Last Mile Delivery</div><div class="journey-step-sub">Carrier tracking page → End consumer</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="section-divider"><div class="divider-label">Framework</div><div class="divider-line"></div></div>
+      <div style="margin-top:14px;">
+        <div class="agenda-list">
+          <div class="agenda-item" onclick="goTo(1)"><div class="agenda-num">1</div>Discovery — Users, Interviews & Data Sources</div>
+          <div class="agenda-item" onclick="goTo(2)"><div class="agenda-num">2</div>Discovery — Feature Coverage & Market Analysis</div>
+          <div class="agenda-item" onclick="goTo(3)"><div class="agenda-num">3</div>Solution — Vision, Success Metrics & Execution</div>
+          <div class="agenda-item" onclick="goTo(4)"><div class="agenda-num">4</div>Solution — Data Integrity & Standardization</div>
+          <div class="agenda-item" onclick="goTo(5)"><div class="agenda-num">5</div>Launch — Enablement & Post-Launch Monitoring</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 2: DISCOVERY I — USERS & INTERVIEWS ── -->
+  <div class="slide" id="slide-1">
+    <div class="slide-eyebrow">Discovery · Phase One</div>
+    <div class="slide-title">Users, Interviews<br>& <em>Data Sources</em></div>
+    <div class="section-divider"><div class="divider-label">Who Are We Building For</div><div class="divider-line"></div></div>
+    <div class="grid-3" style="gap:12px;">
+      <!-- Internal -->
+      <div class="user-card">
+        <div class="user-card-icon icon-internal">🏢</div>
+        <span class="user-tag tag-internal">Internal</span>
+        <div class="card-title" style="font-size:0.9rem">Portless Ops & Customer Success</div>
+        <div class="user-card-questions">
+          <div class="user-q">What support cases come up most? What are we measuring today?</div>
+          <div class="user-q">How do we manually track SLAs — and where does that break?</div>
+          <div class="user-q">What visibility do we have into stuck or at-risk orders?</div>
+        </div>
+      </div>
+      <div class="user-card">
+        <div class="user-card-icon icon-internal">📈</div>
+        <span class="user-tag tag-internal">Internal</span>
+        <div class="card-title" style="font-size:0.9rem">Sales Team</div>
+        <div class="user-card-questions">
+          <div class="user-q">What WISMO questions come up in the sales cycle?</div>
+          <div class="user-q">Has visibility been a factor in closed-lost deals?</div>
+          <div class="user-q">What do prospective merchants compare us against?</div>
+        </div>
+      </div>
+      <!-- Merchant -->
+      <div class="user-card">
+        <div class="user-card-icon icon-merchant">🏪</div>
+        <span class="user-tag tag-merchant">Merchant</span>
+        <div class="card-title" style="font-size:0.9rem">Merchant Ops Team</div>
+        <div class="user-card-questions">
+          <div class="user-q">What visibility gaps cause operational friction?</div>
+          <div class="user-q">How are exceptions discovered today — proactively or reactively?</div>
+          <div class="user-q">What data do they pull manually from other tools?</div>
+        </div>
+      </div>
+      <div class="user-card">
+        <div class="user-card-icon icon-merchant">🎧</div>
+        <span class="user-tag tag-merchant">Merchant</span>
+        <div class="card-title" style="font-size:0.9rem">Merchant Customer Service</div>
+        <div class="user-card-questions">
+          <div class="user-q">What questions does their team get from consumers?</div>
+          <div class="user-q">What information are they unable to quickly answer?</div>
+          <div class="user-q">How long does it take to resolve a WISMO ticket end-to-end?</div>
+        </div>
+      </div>
+      <div class="user-card">
+        <div class="user-card-icon icon-merchant">💻</div>
+        <span class="user-tag tag-merchant">Merchant</span>
+        <div class="card-title" style="font-size:0.9rem">Merchant E-commerce Team</div>
+        <div class="user-card-questions">
+          <div class="user-q">What consumer experience meets brand expectations?</div>
+          <div class="user-q">Are carrier tracking pages consistent with their brand?</div>
+          <div class="user-q">How are post-purchase notifications managed today?</div>
+        </div>
+      </div>
+      <!-- Consumer -->
+      <div class="user-card">
+        <div class="user-card-icon icon-consumer">📦</div>
+        <span class="user-tag tag-consumer">Consumer</span>
+        <div class="card-title" style="font-size:0.9rem">End Consumer</div>
+        <div class="user-card-questions">
+          <div class="user-q">What does the current tracking experience feel like vs. Amazon?</div>
+          <div class="user-q">When do consumers lose confidence in a delivery?</div>
+          <div class="user-q">What touchpoints matter most: shipped, OFD, delivered?</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-divider"><div class="divider-label">Aligning to Company Strategy</div><div class="divider-line"></div></div>
+    <div class="card" style="padding:18px 22px;">
+      <div class="card-body" style="font-size:0.85rem; line-height:1.7;">Discovery doesn't happen in a vacuum. Once user interviews are complete, findings are mapped against Portless's current strategic priorities — so that every proposed improvement is grounded in what matters most to the business right now. This ensures we're not just solving user pain points in isolation, but sequencing work that moves the needle on the company's biggest bets.</div>
+    </div>
+
+    <div class="section-divider"><div class="divider-label">Data Source Inventory</div><div class="divider-line"></div></div>
+    <div class="data-sources-row" style="grid-template-columns:repeat(4,1fr);">
+      <div class="data-source-chip"><div class="ds-dot"></div>ERP</div>
+      <div class="data-source-chip"><div class="ds-dot"></div>Partner WMSs</div>
+      <div class="data-source-chip"><div class="ds-dot"></div>Air Cargo / TMS</div>
+      <div class="data-source-chip"><div class="ds-dot"></div>Aftership / 17Track</div>
+      <div class="data-source-chip"><div class="ds-dot"></div>Pipe17 (Integrations)</div>
+      <div class="data-source-chip"><div class="ds-dot"></div>Last-Mile Carriers</div>
+      <div class="data-source-chip"><div class="ds-dot"></div>Shopify / Storefront</div>
+      <div class="data-source-chip"><div class="ds-dot"></div>BigQuery / Internal</div>
+    </div>
+    <div class="card" style="padding:14px 18px; border-left:3px solid #f87171; border-radius:0 12px 12px 0;">
+      <div class="card-body" style="font-size:0.78rem; color:#f87171;">⚠️ &nbsp;Key discovery question: What events are actually available from each source, at what latency, and with what consistency? Data availability drives what we can promise in the experience.</div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 3: DISCOVERY II — FEATURE COVERAGE ── -->
+  <div class="slide" id="slide-2">
+    <div class="slide-eyebrow">Discovery · Phase Two</div>
+    <div class="slide-title">Feature Coverage &<br><em>Market Analysis</em></div>
+    <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;">
+      <div class="slide-subtitle" style="font-size:0.85rem;">Scoring where we are today against what users expect and what the market provides. This becomes the shared artifact the team rallies around.</div>
+      <div class="score-legend">
+        <div class="legend-item"><span class="score-badge score-0">0</span>Not at all</div>
+        <div class="legend-item"><span class="score-badge score-1">1</span>Workaround</div>
+        <div class="legend-item"><span class="score-badge score-2">2</span>Basic</div>
+        <div class="legend-item"><span class="score-badge score-3">3</span>Good enough</div>
+        <div class="legend-item"><span class="score-badge score-4">4</span>Market-leading</div>
+      </div>
+    </div>
+
+    <div class="coverage-table-wrap">
+      <table class="coverage-table">
+        <thead>
+          <tr>
+            <th style="width:28%">Feature</th>
+            <th style="width:30%">Description</th>
+            <th>Today</th>
+            <th>Target</th>
+            <th>Aftership</th>
+            <th>Narvar</th>
+            <th>Stord</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="section-header"><td colspan="7">🏪 Merchant Visibility</td></tr>
+          <tr>
+            <td class="feature-name">Order Creation → Delivery Tracking</td>
+            <td style="font-size:0.72rem;color:var(--muted);">Unified order view from capture to final delivery without toggling between tools</td>
+            <td><span class="score-badge score-0">0</span></td>
+            <td><span class="score-badge score-3">3</span></td>
+            <td><span class="score-badge score-2">2</span></td>
+            <td><span class="score-badge score-3">3</span></td>
+            <td><span class="score-badge score-2">2</span></td>
+          </tr>
+          <tr>
+            <td class="feature-name">Exception Management</td>
+            <td style="font-size:0.72rem;color:var(--muted);">Surface stuck or at-risk orders with recommended next steps</td>
+            <td><span class="score-badge score-0">0</span></td>
+            <td><span class="score-badge score-3">3</span></td>
+            <td><span class="score-badge score-1">1</span></td>
+            <td><span class="score-badge score-3">3</span></td>
+            <td><span class="score-badge score-2">2</span></td>
+          </tr>
+          <tr>
+            <td class="feature-name">Proactive Merchant Alerts</td>
+            <td style="font-size:0.72rem;color:var(--muted);">Push notifications for delays, exceptions, and fulfillment events</td>
+            <td><span class="score-badge score-0">0</span></td>
+            <td><span class="score-badge score-3">3</span></td>
+            <td><span class="score-badge score-2">2</span></td>
+            <td><span class="score-badge score-3">3</span></td>
+            <td><span class="score-badge score-1">1</span></td>
+          </tr>
+          <tr>
+            <td class="feature-name">Order Reporting & Dashboards</td>
+            <td style="font-size:0.72rem;color:var(--muted);">Historical views, delivery performance trends by carrier, region, SKU</td>
+            <td><span class="score-badge score-1">1</span></td>
+            <td><span class="score-badge score-3">3</span></td>
+            <td><span class="score-badge score-2">2</span></td>
+            <td><span class="score-badge score-4">4</span></td>
+            <td><span class="score-badge score-2">2</span></td>
+          </tr>
+          <tr class="section-header"><td colspan="7">📦 Consumer Experience</td></tr>
+          <tr>
+            <td class="feature-name">Ship-to-Deliver Tracking</td>
+            <td style="font-size:0.72rem;color:var(--muted);">Branded consumer-facing tracking timeline with clear language status updates</td>
+            <td><span class="score-badge score-1">1</span></td>
+            <td><span class="score-badge score-3">3</span></td>
+            <td><span class="score-badge score-4">4</span></td>
+            <td><span class="score-badge score-4">4</span></td>
+            <td><span class="score-badge score-2">2</span></td>
+          </tr>
+          <tr>
+            <td class="feature-name">Out for Delivery</td>
+            <td style="font-size:0.72rem;color:var(--muted);">Real-time update when package is loaded for final-mile regardless of carrier</td>
+            <td><span class="score-badge score-2">2</span></td>
+            <td><span class="score-badge score-3">3</span></td>
+            <td><span class="score-badge score-4">4</span></td>
+            <td><span class="score-badge score-4">4</span></td>
+            <td><span class="score-badge score-2">2</span></td>
+          </tr>
+          <tr>
+            <td class="feature-name">Key Event Notifications</td>
+            <td style="font-size:0.72rem;color:var(--muted);">Push or email alerts at shipped, in-country, out for delivery, delivered</td>
+            <td><span class="score-badge score-0">0</span></td>
+            <td><span class="score-badge score-3">3</span></td>
+            <td><span class="score-badge score-4">4</span></td>
+            <td><span class="score-badge score-4">4</span></td>
+            <td><span class="score-badge score-1">1</span></td>
+          </tr>
+          <tr>
+            <td class="feature-name">Reactive Delay Notifications</td>
+            <td style="font-size:0.72rem;color:var(--muted);">Auto-alert + revised ETA when delay is detected, reducing WISMO contacts</td>
+            <td><span class="score-badge score-2">2</span></td>
+            <td><span class="score-badge score-3">3</span></td>
+            <td><span class="score-badge score-3">3</span></td>
+            <td><span class="score-badge score-4">4</span></td>
+            <td><span class="score-badge score-1">1</span></td>
+          </tr>
+          <tr>
+            <td class="feature-name">Proactive Predicted Exceptions</td>
+            <td style="font-size:0.72rem;color:var(--muted);">System flags orders likely to delay, alerting before consumers notice</td>
+            <td><span class="score-badge score-0">0</span></td>
+            <td><span class="score-badge score-2">2</span></td>
+            <td><span class="score-badge score-2">2</span></td>
+            <td><span class="score-badge score-3">3</span></td>
+            <td><span class="score-badge score-0">0</span></td>
+          </tr>
+          <tr class="section-header"><td colspan="7">🏢 Internal Ops</td></tr>
+          <tr>
+            <td class="feature-name">Internal Order Dashboard</td>
+            <td style="font-size:0.72rem;color:var(--muted);">Full-granularity view for ops: warehouse events, air cargo, customs, last mile</td>
+            <td><span class="score-badge score-1">1</span></td>
+            <td><span class="score-badge score-3">3</span></td>
+            <td><span class="score-badge score-1">1</span></td>
+            <td><span class="score-badge score-2">2</span></td>
+            <td><span class="score-badge score-3">3</span></td>
+          </tr>
+          <tr>
+            <td class="feature-name">SLA Monitoring</td>
+            <td style="font-size:0.72rem;color:var(--muted);">Track P95 fulfillment windows; flag breach risks before they happen</td>
+            <td><span class="score-badge score-1">1</span></td>
+            <td><span class="score-badge score-3">3</span></td>
+            <td><span class="score-badge score-0">0</span></td>
+            <td><span class="score-badge score-2">2</span></td>
+            <td><span class="score-badge score-3">3</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card" style="padding:14px 18px; border-left:3px solid var(--accent); border-radius:0 12px 12px 0;">
+      <div class="card-body" style="font-size:0.78rem;">💡 &nbsp;<strong style="color:var(--accent)">Example Insight:</strong> Portless scores a <strong style="color:var(--accent)">0</strong> on several table-stakes features — exception management, proactive alerts, and key event notifications. This is the kind of finding that would emerge from the coverage audit, and would help the team align on what to prioritize first. Closing gaps like these directly reduces internal CS load and builds merchant trust.</div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 4: SOLUTION I — VISION + METRICS + EXECUTION ── -->
+  <div class="slide" id="slide-3">
+    <div class="slide-eyebrow">Solution · Phase One</div>
+    <div class="slide-title">Vision, Success Metrics<br>& <em>Execution</em></div>
+
+    <div class="section-divider"><div class="divider-label">Full Order Journey — What Each User Needs</div><div class="divider-line"></div></div>
+    <div class="order-journey-visual">
+      <div class="ojv-stages">
+        <div class="ojv-stage highlighted">
+          <div class="ojv-icon">📋</div>
+          <div class="ojv-label">Order<br>Created</div>
+          <div class="ojv-tags">
+            <span class="user-tag tag-internal" style="font-size:0.5rem;">Internal</span>
+            <span class="user-tag tag-merchant" style="font-size:0.5rem;">Merchant</span>
+          </div>
+        </div>
+        <div class="ojv-stage highlighted">
+          <div class="ojv-icon">📦</div>
+          <div class="ojv-label">Picked &<br>Packed</div>
+          <div class="ojv-tags">
+            <span class="user-tag tag-internal" style="font-size:0.5rem;">Internal</span>
+            <span class="user-tag tag-merchant" style="font-size:0.5rem;">Merchant</span>
+          </div>
+        </div>
+        <div class="ojv-stage highlighted">
+          <div class="ojv-icon">✈️</div>
+          <div class="ojv-label">Air Freight<br>First Mile</div>
+          <div class="ojv-tags">
+            <span class="user-tag tag-internal" style="font-size:0.5rem;">Internal</span>
+            <span class="user-tag tag-merchant" style="font-size:0.5rem;">Merchant</span>
+          </div>
+        </div>
+        <div class="ojv-stage highlighted">
+          <div class="ojv-icon">🛃</div>
+          <div class="ojv-label">Customs<br>Clearance</div>
+          <div class="ojv-tags">
+            <span class="user-tag tag-internal" style="font-size:0.5rem;">Internal</span>
+            <span class="user-tag tag-merchant" style="font-size:0.5rem;">Merchant</span>
+            <span class="user-tag tag-consumer" style="font-size:0.5rem;">Consumer</span>
+          </div>
+        </div>
+        <div class="ojv-stage highlighted">
+          <div class="ojv-icon">🚚</div>
+          <div class="ojv-label">Out for<br>Delivery</div>
+          <div class="ojv-tags">
+            <span class="user-tag tag-internal" style="font-size:0.5rem;">Internal</span>
+            <span class="user-tag tag-merchant" style="font-size:0.5rem;">Merchant</span>
+            <span class="user-tag tag-consumer" style="font-size:0.5rem;">Consumer</span>
+          </div>
+        </div>
+        <div class="ojv-stage highlighted">
+          <div class="ojv-icon">✅</div>
+          <div class="ojv-label">Delivered</div>
+          <div class="ojv-tags">
+            <span class="user-tag tag-internal" style="font-size:0.5rem;">Internal</span>
+            <span class="user-tag tag-merchant" style="font-size:0.5rem;">Merchant</span>
+            <span class="user-tag tag-consumer" style="font-size:0.5rem;">Consumer</span>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:16px; padding-top:14px; border-top:1px solid var(--border); display:flex; gap:20px; font-size:0.72rem; color:var(--muted);">
+        <span>🏢 Internal: <strong style="color:var(--white)">Full granularity — every event, every source</strong></span>
+        <span>🏪 Merchant: <strong style="color:var(--white)">Warehouse detail + air cargo + exceptions</strong></span>
+        <span>👤 Consumer: <strong style="color:var(--white)">Shipped → Out for Delivery → Delivered</strong></span>
+      </div>
+    </div>
+
+    <div class="section-divider"><div class="divider-label">Defining Success — Metrics Before Development</div><div class="divider-line"></div></div>
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-icon">🎫</div>
+        <div><div class="metric-title">WISMO Ticket Reduction</div><div class="metric-sub">Reduction in WISMO-related tickets to Portless CS. Baseline first, then track monthly after rollout.</div></div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon">📊</div>
+        <div><div class="metric-title">Merchant Portal Adoption</div><div class="metric-sub">% of merchants actively using new WISMO features + return engagement rate week-over-week.</div></div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon">⚡</div>
+        <div><div class="metric-title">Exception Resolution Time</div><div class="metric-sub">Before vs. after: how long does it take to identify and resolve a stuck or at-risk order?</div></div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon">👁️</div>
+        <div><div class="metric-title">Consumer Tracking Engagement</div><div class="metric-sub">Tracking page visits per order and notification open rates.</div></div>
+      </div>
+    </div>
+
+    <div class="section-divider"><div class="divider-label">Execution — Key Feature Areas</div><div class="divider-line"></div></div>
+    <div class="execution-steps">
+      <div class="exec-step"><div class="exec-step-num">01</div><strong style="color:var(--white);margin-right:6px;">Merchant Portal Order Visibility</strong> — Standardized order statuses across all sources, single pane of glass from capture to delivered</div>
+      <div class="exec-step"><div class="exec-step-num">02</div><strong style="color:var(--white);margin-right:6px;">Exception Management</strong> — Surface stuck/at-risk orders with context + clear resolution actions for ops teams</div>
+      <div class="exec-step"><div class="exec-step-num">03</div><strong style="color:var(--white);margin-right:6px;">Order Reporting & Dashboards</strong> — Historical trends, carrier performance, P95 SLA tracking, exportable by SKU/region</div>
+      <div class="exec-step"><div class="exec-step-num">04</div><strong style="color:var(--white);margin-right:6px;">Consumer Tracking Page</strong> — Branded, hosted tracking experience built on Aftership, replacing raw carrier pages</div>
+      <div class="exec-step"><div class="exec-step-num">05</div><strong style="color:var(--white);margin-right:6px;">Proactive Notifications</strong> — Exception alerts + key event updates pushed to merchants and consumers</div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 5: SOLUTION II — DATA INTEGRITY ── -->
+  <div class="slide" id="slide-4">
+    <div class="slide-eyebrow">Solution · Phase Two</div>
+    <div class="slide-title">Data Integrity &<br><em>Standardization</em></div>
+    <div class="slide-subtitle">Before we surface any status to any user — we must define how data flows, gets normalized, and is selectively presented based on who is asking.</div>
+
+    <!-- Data Flow Diagram -->
+    <div class="data-flow-diagram">
+      <!-- Sources Column -->
+      <div class="dfd-column dfd-sources">
+        <div class="dfd-col-label">Disparate Sources</div>
+        <div class="source-node">
+          <div class="source-node-name">🏭 WMS A</div>
+          <div><span class="raw-event">In Picking</span><span class="raw-event">Packed</span><span class="raw-event">Manifested</span></div>
+        </div>
+        <div class="source-node">
+          <div class="source-node-name">🏭 WMS B</div>
+          <div><span class="raw-event">PICKED</span><span class="raw-event">STAGED</span><span class="raw-event">SHIPPED</span></div>
+        </div>
+        <div class="source-node">
+          <div class="source-node-name">✈️ Air Cargo / TMS</div>
+          <div><span class="raw-event">AWB Created</span><span class="raw-event">Departed Origin</span><span class="raw-event">Arrived Hub</span></div>
+        </div>
+        <div class="source-node">
+          <div class="source-node-name">📦 Last-Mile Carriers</div>
+          <div><span class="raw-event">Picked Up</span><span class="raw-event">At Facility</span><span class="raw-event">Delivered</span></div>
+        </div>
+      </div>
+
+      <!-- Arrows -->
+      <div class="dfd-middle" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:0 24px;">
+        <div style="font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;text-align:center;">Portless<br>Normalization Layer</div>
+        <div style="display:flex;flex-direction:column;gap:4px;width:100%;font-size:0.55rem;color:var(--muted);">
+          <div style="background:#1a1a1a;border:1px dashed var(--border);border-radius:6px;padding:5px 8px;">1. Capture & store raw events</div>
+          <div style="background:#1a1a1a;border:1px dashed var(--border);border-radius:6px;padding:5px 8px;">2. Map to Portless standard taxonomy</div>
+          <div style="background:#1a1a1a;border:1px dashed var(--border);border-radius:6px;padding:5px 8px;">3. Route to correct surface by user type</div>
+        </div>
+        <div style="font-size:1.5rem;color:var(--accent);margin-top:6px;">→</div>
+      </div>
+
+      <!-- Portless Hub -->
+      <div style="display:flex;align-items:center;justify-content:center;padding:0 8px;">
+        <div class="portless-hub">
+          <div class="hub-label">Portless Standard Events</div>
+          <div class="hub-events">
+            <div class="hub-event"><div class="hub-event-dot"></div>Order Received</div>
+            <div class="hub-event"><div class="hub-event-dot"></div>Fulfillment Started</div>
+            <div class="hub-event"><div class="hub-event-dot"></div>Shipped</div>
+            <div class="hub-event"><div class="hub-event-dot"></div>In Transit</div>
+            <div class="hub-event"><div class="hub-event-dot"></div>In Country</div>
+            <div class="hub-event"><div class="hub-event-dot"></div>Out for Delivery</div>
+            <div class="hub-event"><div class="hub-event-dot"></div>Delivered</div>
+            <div class="hub-event"><div class="hub-event-dot"></div>Exception Flagged</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Another Arrow -->
+      <div class="dfd-middle" style="display:flex;align-items:center;justify-content:center;padding:0 16px;">
+        <div style="font-size:1.5rem;color:var(--accent);">→</div>
+      </div>
+
+      <!-- Outputs Column -->
+      <div class="dfd-column dfd-outputs">
+        <div class="dfd-col-label">Presented To</div>
+        <div class="output-node" style="flex-direction:column;align-items:flex-start;gap:6px;padding:14px;">
+          <div style="display:flex;align-items:center;gap:8px;width:100%;">
+            <div class="output-icon icon-internal" style="background:rgba(99,102,241,0.15);">🏢</div>
+            <div>
+              <div class="output-name">Internal Ops</div>
+              <div class="output-detail">Full granularity — every raw + standard event, exception queue, SLA monitoring</div>
+            </div>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:3px;margin-top:2px;">
+            <span style="font-size:0.55rem;padding:2px 6px;background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.2);border-radius:4px;color:#a5b4fc;">All Events</span>
+            <span style="font-size:0.55rem;padding:2px 6px;background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.2);border-radius:4px;color:#a5b4fc;">Exception Queue</span>
+            <span style="font-size:0.55rem;padding:2px 6px;background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.2);border-radius:4px;color:#a5b4fc;">SLA Flags</span>
+          </div>
+        </div>
+        <div class="output-node" style="flex-direction:column;align-items:flex-start;gap:6px;padding:14px;">
+          <div style="display:flex;align-items:center;gap:8px;width:100%;">
+            <div class="output-icon icon-merchant" style="background:rgba(249,115,22,0.15);">🏪</div>
+            <div>
+              <div class="output-name">Merchant Portal</div>
+              <div class="output-detail">Full journey in more detail with exceptions. Curated for operational value.</div>
+            </div>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:3px;margin-top:2px;">
+            <span style="font-size:0.55rem;padding:2px 6px;background:rgba(249,115,22,0.1);border:1px solid rgba(249,115,22,0.2);border-radius:4px;color:#fdba74;">Fulfillment Events</span>
+            <span style="font-size:0.55rem;padding:2px 6px;background:rgba(249,115,22,0.1);border:1px solid rgba(249,115,22,0.2);border-radius:4px;color:#fdba74;">Exceptions</span>
+            <span style="font-size:0.55rem;padding:2px 6px;background:rgba(249,115,22,0.1);border:1px solid rgba(249,115,22,0.2);border-radius:4px;color:#fdba74;">Dashboards</span>
+            <span style="font-size:0.55rem;padding:2px 6px;background:rgba(249,115,22,0.1);border:1px solid rgba(249,115,22,0.2);border-radius:4px;color:#fdba74;">SLAs</span>
+          </div>
+        </div>
+        <div class="output-node" style="flex-direction:column;align-items:flex-start;gap:6px;padding:14px;">
+          <div style="display:flex;align-items:center;gap:8px;width:100%;">
+            <div class="output-icon icon-consumer" style="background:rgba(79,142,247,0.12);">📱</div>
+            <div>
+              <div class="output-name">Consumer Tracking</div>
+              <div class="output-detail">Clean language. Shipped → OFD → Delivered. No warehouse jargon.</div>
+            </div>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:3px;margin-top:2px;">
+            <span style="font-size:0.55rem;padding:2px 6px;background:rgba(79,142,247,0.1);border:1px solid var(--accent-mid);border-radius:4px;color:var(--accent);">Tracking Page</span>
+            <span style="font-size:0.55rem;padding:2px 6px;background:rgba(79,142,247,0.1);border:1px solid var(--accent-mid);border-radius:4px;color:var(--accent);">Push Alerts</span>
+            <span style="font-size:0.55rem;padding:2px 6px;background:rgba(79,142,247,0.1);border:1px solid var(--accent-mid);border-radius:4px;color:var(--accent);">Email Updates</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-3" style="gap:12px;">
+      <div class="card" style="padding:18px 20px; border-left:3px solid #a5b4fc; border-radius:0 12px 12px 0;">
+        <div class="card-label">Step 1</div>
+        <div class="card-title" style="font-size:0.85rem;">Establish Source Contracts</div>
+        <div class="card-body" style="font-size:0.75rem;">Define expected events, latency SLAs, and format from each data source. Alert on missing or stale data.</div>
+      </div>
+      <div class="card" style="padding:18px 20px; border-left:3px solid var(--accent); border-radius:0 12px 12px 0;">
+        <div class="card-label">Step 2</div>
+        <div class="card-title" style="font-size:0.85rem;">Define Portless Taxonomy</div>
+        <div class="card-body" style="font-size:0.75rem;">Map "In Picking" + "PICKED" + "picked up" → <strong style="color:var(--accent)">"Fulfillment Started"</strong>. One canonical event set for all sources.</div>
+      </div>
+      <div class="card" style="padding:18px 20px; border-left:3px solid #fdba74; border-radius:0 12px 12px 0;">
+        <div class="card-label">Step 3</div>
+        <div class="card-title" style="font-size:0.85rem;">Route by User Type</div>
+        <div class="card-body" style="font-size:0.75rem;">Same normalized event, different presentation. Internal sees all. Merchant sees full journey in more detail with exceptions. Consumer sees plain-language milestones.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 6: LAUNCH ── -->
+  <div class="slide" id="slide-5">
+    <div class="slide-eyebrow">Launch</div>
+    <div class="slide-title">Enablement &<br><em>Post-Launch</em></div>
+    <div class="slide-subtitle">GTM planning starts during development — not after. CS, Sales, and Marketing need to be ready before a single merchant's experience changes.</div>
+
+    <div class="section-divider"><div class="divider-label">Enablement Strategy</div><div class="divider-line"></div></div>
+    <div class="launch-phases">
+      <!-- Pre-launch -->
+      <div class="phase-card">
+        <div class="phase-header">
+          <span class="phase-badge badge-before">Pre-Launch</span>
+        </div>
+        <div class="phase-title">Internal Enablement</div>
+        <div class="phase-items">
+          <div class="phase-item"><div class="phase-item-icon">📝</div>Shared talking points: key benefits, changed workflows, what merchants need to know</div>
+          <div class="phase-item"><div class="phase-item-icon">🎓</div>CS documentation, office hours, and training sessions before rollout</div>
+          <div class="phase-item"><div class="phase-item-icon">🤝</div>CS empowered with deck + talking points for key account conversations</div>
+          <div class="phase-item"><div class="phase-item-icon">📊</div>Sales updated with pitch materials positioning order visibility against competitive signals</div>
+        </div>
+        <div class="audience-badges">
+          <span class="user-tag tag-internal">Ops / CS</span>
+          <span class="user-tag tag-internal">Sales</span>
+        </div>
+      </div>
+
+      <!-- At Launch -->
+      <div class="phase-card">
+        <div class="phase-header">
+          <span class="phase-badge badge-launch">At Launch</span>
+        </div>
+        <div class="phase-title">Merchant Enablement</div>
+        <div class="phase-items">
+          <div class="phase-item"><div class="phase-item-icon">📣</div>In-app announcement banners surfacing new features where merchants will see them</div>
+          <div class="phase-item"><div class="phase-item-icon">🎬</div>Short walkthrough videos embedded in portal and linked from email comms</div>
+          <div class="phase-item"><div class="phase-item-icon">📚</div>Referenceable help documentation merchants can return to independently</div>
+          <div class="phase-item"><div class="phase-item-icon">💬</div>Feedback loops built in — merchants can flag issues or request enhancements inline</div>
+        </div>
+        <div class="audience-badges">
+          <span class="user-tag tag-merchant">Merchant Ops</span>
+          <span class="user-tag tag-merchant">Merchant CS</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-divider"><div class="divider-label">Post-Launch Monitoring</div><div class="divider-line"></div></div>
+    <div class="grid-3" style="gap:12px;">
+      <div class="card" style="padding:18px 20px;">
+        <div class="card-label">Metrics Monitoring</div>
+        <div class="card-title" style="font-size:0.88rem;">Track Against Baseline</div>
+        <div class="card-body" style="font-size:0.75rem;">WISMO ticket volume, merchant portal adoption, exception resolution time. Weekly pulse — flag anomalies fast.</div>
+      </div>
+      <div class="card" style="padding:18px 20px;">
+        <div class="card-label">Team Feedback</div>
+        <div class="card-title" style="font-size:0.88rem;">CS & Sales Check-ins</div>
+        <div class="card-body" style="font-size:0.75rem;">Regular syncs with CS to monitor ticket trends. Sales to flag prospect reactions. Both feed the next iteration.</div>
+      </div>
+      <div class="card" style="padding:18px 20px;">
+        <div class="card-label">Merchant Feedback</div>
+        <div class="card-title" style="font-size:0.88rem;">Structured Sessions</div>
+        <div class="card-body" style="font-size:0.75rem;">Post-launch sessions with friendly merchants from discovery. Document findings → feed roadmap. Discovery never stops.</div>
+      </div>
+    </div>
+
+    <div style="background:linear-gradient(135deg, rgba(79,142,247,0.06) 0%, var(--card) 100%); border:1px solid var(--accent-mid); border-radius:16px; padding:24px 28px; display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap;">
+      <div>
+        <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;">North Star Outcome</div>
+        <div style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--white);line-height:1.3;">A WISMO experience that eliminates<br><em>WISMO as a question.</em></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;flex-shrink:0;">
+        <div style="font-size:0.7rem;color:var(--muted);text-align:right;margin-bottom:2px;">Success looks like:</div>
+        <div style="background:var(--accent-dim);border:1px solid var(--accent-mid);border-radius:8px;padding:8px 14px;font-size:0.75rem;font-weight:600;color:var(--accent);">↓ WISMO Tickets to CS</div>
+        <div style="background:var(--accent-dim);border:1px solid var(--accent-mid);border-radius:8px;padding:8px 14px;font-size:0.75rem;font-weight:600;color:var(--accent);">↑ Merchant Portal Retention</div>
+        <div style="background:var(--accent-dim);border:1px solid var(--accent-mid);border-radius:8px;padding:8px 14px;font-size:0.75rem;font-weight:600;color:var(--accent);">↓ Exception Resolution Time</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end slides-container -->
+
+<!-- CONTROLS -->
+<div class="slide-controls">
+  <button class="ctrl-btn" id="prev-btn" onclick="prevSlide()" disabled>←</button>
+  <div class="dots" id="dots"></div>
+  <button class="ctrl-btn" id="next-btn" onclick="nextSlide()">→</button>
+</div>
+
+<script>
+  let current = 0;
+  const total = 6;
+  const slides = document.querySelectorAll('.slide');
+  const navPills = document.querySelectorAll('.nav-pill');
+  const dotsContainer = document.getElementById('dots');
+  const progress = document.getElementById('progress');
+  const slideNum = document.getElementById('slide-num');
+
+  // Build dots
+  for (let i = 0; i < total; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.onclick = () => goTo(i);
+    dotsContainer.appendChild(d);
+  }
+
+  function goTo(idx) {
+    if (idx < 0 || idx >= total) return;
+    slides[current].classList.remove('active');
+    slides[current].classList.add('prev');
+    setTimeout(() => slides[current].classList.remove('prev'), 400);
+
+    navPills[current].classList.remove('active');
+    dotsContainer.children[current].classList.remove('active');
+
+    current = idx;
+    slides[current].classList.add('active');
+    navPills[current].classList.add('active');
+    dotsContainer.children[current].classList.add('active');
+
+    slideNum.textContent = current + 1;
+    progress.style.width = ((current + 1) / total * 100) + '%';
+    document.getElementById('prev-btn').disabled = current === 0;
+    document.getElementById('next-btn').disabled = current === total - 1;
+  }
+
+  function nextSlide() { goTo(current + 1); }
+  function prevSlide() { goTo(current - 1); }
+
+  // Keyboard nav
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') nextSlide();
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') prevSlide();
+  });
+
+  // Init progress
+  progress.style.width = (1 / total * 100) + '%';
+</script>
+
+  `
+
+  return (
+    <div dangerouslySetInnerHTML={{ __html: presentationHTML }} />
+  )
+}
